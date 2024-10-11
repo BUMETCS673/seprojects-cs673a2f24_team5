@@ -55,16 +55,8 @@ function App() {
     }, 1000);
   }
 
-  const mainContainerStyle = {
-    display: 'flex',
-    flexDirection: 'column' as const as 'column',
-    height: '100vh',
-    backgroundColor: '#f0f4f8', // Light pastel background
-    padding: '20px',
-  };
-
   return (
-    <div style={mainContainerStyle}>
+    <div className="flex flex-col h-screen bg-gray-100 p-5">
       <Header/>
       <Content messages={messages}></Content>
       <ChatBox onSendMessage={onSendMessage} onAnalyze={onAnalyze}></ChatBox>

@@ -14,19 +14,11 @@ export const Content = ({messages}: IContentProps) => {
     }
   }, [messages]);
 
-  const contentStyle = {
-    borderWidth: '2px',
-    padding: '16px',
-    flex: 1,
-    overflowY: 'auto' as const as 'auto',
-    backgroundColor: '#ffffff', // White or off-white background
-    borderRadius: '8px',
-    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
-    marginBottom: '20px',
-  };
-
   return (
-    <div ref={contentRef} style={contentStyle}>
+    <div
+      className="border-2 p-4 flex-1 overflow-y-auto bg-white rounded-lg shadow-md mb-5"
+      ref={contentRef}
+    >
       {messages.map((msg, index) => (
         <div
           key={index}

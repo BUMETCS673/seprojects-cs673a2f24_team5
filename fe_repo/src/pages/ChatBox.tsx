@@ -32,30 +32,6 @@ export const ChatBox = ({onSendMessage, onAnalyze}: IChatBoxProps) => {
     setJobDescription(""); // Clear the input after submission
   };
 
-  const iconRowStyle = {
-    display: 'flex',
-    justifyContent: 'flex-start',
-    gap: '10px', // Add space between buttons
-    marginBottom: '10px',
-  };
-
-  const iconStyle = {
-    fontSize: '16px', // Set a smaller, consistent size for emoji icons
-  };
-
-  const iconButtonStyle = {
-    cursor: 'pointer',
-    padding: '8px 16px',
-    borderRadius: '20px', // Rounded rectangle shape
-    backgroundColor: '#3498db', // A nice blue color
-    color: 'white',
-    border: 'none',
-    fontSize: '14px', // Ensure consistent font size
-    display: 'flex',
-    alignItems: 'center',
-    gap: '5px', // Space between icon and text
-  };
-
 
   return (
     <div className="border-2 p-4 flex flex-col bg-white rounded-lg shadow-md">
@@ -88,7 +64,7 @@ export const ChatBox = ({onSendMessage, onAnalyze}: IChatBoxProps) => {
       }
       {/* icon row */
       }
-      <div style={iconRowStyle}>
+      <div className="flex justify-start gap-2 mb-2">
         <div
           style={{width: '64px', display: 'flex', justifyContent: 'center', cursor: 'pointer'}}
           onClick={() => {
@@ -112,8 +88,11 @@ export const ChatBox = ({onSendMessage, onAnalyze}: IChatBoxProps) => {
         >
           <UploadIcon/>
         </div>
-        <button style={iconButtonStyle} onClick={() => setShowPrompt(true)}>
-          <span style={iconStyle}>📄</span> Analyze my resume
+        <button
+          className="cursor-pointer px-4 py-2 rounded-full bg-blue-500 text-white text-sm flex items-center gap-1 hover:bg-blue-600 transition"
+          onClick={() => setShowPrompt(true)}
+        >
+          <span className="text-base">📄</span> Analyze my resume
         </button>
         {/*🛈 /!* Example icon - you can use actual icons here *!/*/}
         {/*💼 /!* Example icon for interview *!/*/}
