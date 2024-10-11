@@ -5,7 +5,7 @@
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
 
 <p>
-  <img src="https://img.shields.io/github/license/BUMETCS673/seprojects-cs673a2f24_team5" alt="license"/>
+  <!-- <img src="https://img.shields.io/github/license/BUMETCS673/seprojects-cs673a2f24_team5" alt="license"/> -->
   <img src="https://img.shields.io/docker/pulls/adamma1024/cvcoach_web" alt="docker-pull-count" />
   <a href="https://img.shields.io/badge/price-free-ff69b4"><img alt="Price" src="https://img.shields.io/badge/price-free-ff69b4?style=flat-square" /></a>
 </p>
