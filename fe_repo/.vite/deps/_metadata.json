@@ -1,0 +1,55 @@
+{
+  "hash": "9a0890e3",
+  "configHash": "e0be3918",
+  "lockfileHash": "708423af",
+  "browserHash": "70815234",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/.pnpm/react@18.3.1/node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "f6643a41",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "34f8a45e",
+      "needsInterop": true
+    },
+    "@mui/base/TextareaAutosize": {
+      "src": "../../node_modules/.pnpm/@mui+base@5.0.0-beta.58_@types+react@18.3.8_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/@mui/base/TextareaAutosize/index.js",
+      "file": "@mui_base_TextareaAutosize.js",
+      "fileHash": "d695d4e7",
+      "needsInterop": false
+    },
+    "@mui/system": {
+      "src": "../../node_modules/.pnpm/@mui+system@6.1.1_@emotion+react@11.13.3_@types+react@18.3.8_react@18.3.1__@emotion+styled@11_slezaknd3aqzz3k7zk66cekx6i/node_modules/@mui/system/index.js",
+      "file": "@mui_system.js",
+      "fileHash": "893cebbf",
+      "needsInterop": false
+    },
+    "uuid": {
+      "src": "../../node_modules/.pnpm/uuid@10.0.0/node_modules/uuid/dist/esm-browser/index.js",
+      "file": "uuid.js",
+      "fileHash": "4c80b988",
+      "needsInterop": false
+    },
+    "axios": {
+      "src": "../../node_modules/.pnpm/axios@1.7.7/node_modules/axios/index.js",
+      "file": "axios.js",
+      "fileHash": "93961d7d",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-C2L7XJJ2": {
+      "file": "chunk-C2L7XJJ2.js"
+    },
+    "chunk-OELA7GPI": {
+      "file": "chunk-OELA7GPI.js"
+    },
+    "chunk-G3PMV62Z": {
+      "file": "chunk-G3PMV62Z.js"
+    }
+  }
+}
