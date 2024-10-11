@@ -4,9 +4,11 @@
 [![CD Pipeline](https://github.com/BUMETCS673/seprojects-cs673a2f24_team5/actions/workflows/cd.yml/badge.svg)](https://github.com/BUMETCS673/seprojects-cs673a2f24_team5/actions/workflows/cd.yml)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
 
+<p>
   <img src="https://img.shields.io/github/license/BUMETCS673/seprojects-cs673a2f24_team5" alt="license"/>
   <img src="https://img.shields.io/docker/pulls/adamma1024/cvcoach_web" alt="docker-pull-count" />
   <a href="https://img.shields.io/badge/price-free-ff69b4"><img alt="Price" src="https://img.shields.io/badge/price-free-ff69b4?style=flat-square" /></a>
+</p>
 
 This repository is a project for METCS673. This project focuses on using AI to automate and improve the process of resume evaluation and interview preparation. By incorporating Retrieval-Augmented Generation (RAG), we ensure that our application can provide more accurate, context-relevant reviews.
 
