@@ -1,0 +1,29 @@
+name: Deploy to EC2
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install SSH Key
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+
+      # stop old service and start a new one
+      - name: Deploy to EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no adamma2048@34.75.81.44 << EOF
+          cd seprojects-cs673a2f24_team5
+          bash docker_auto_start.sh stop
+          git switch main
+          git pull
+          bash docker_auto_start.sh start
+          EOF

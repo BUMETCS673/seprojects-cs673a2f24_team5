@@ -1,6 +1,11 @@
 # CVCoach
 
+[![CI for FE](https://github.com/BUMETCS673/seprojects-cs673a2f24_team5/actions/workflows/ci_fe.yml/badge.svg)](https://github.com/BUMETCS673/seprojects-cs673a2f24_team5/actions/workflows/ci_fe.yml)
+[![CD Pipeline](https://github.com/BUMETCS673/seprojects-cs673a2f24_team5/actions/workflows/cd.yml/badge.svg)](https://github.com/BUMETCS673/seprojects-cs673a2f24_team5/actions/workflows/cd.yml)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white)](https://conventionalcommits.org)
+
+  <a href="http://badges.mit-license.org/"><img alt="License" src="http://img.shields.io/:license-mit-blue.svg?style=flat-square?style=flat-square" /></a>
+  <a href="https://img.shields.io/badge/price-free-ff69b4"><img alt="Price" src="https://img.shields.io/badge/price-free-ff69b4?style=flat-square" /></a>
 
 This repository is a project for METCS673. This project focuses on using AI to automate and improve the process of resume evaluation and interview preparation. By incorporating Retrieval-Augmented Generation (RAG), we ensure that our application can provide more accurate, context-relevant reviews.
 
@@ -41,7 +46,6 @@ docker compose down/stop
 ## What's the CI/CD processes of this project?
 
 [📔 CI/CD Intro](./doc/CICD.md)
-[notion workflow board](https://www.notion.so/56748261d0fd4b1ba5869a99602822df?v=15a842aff8ae4422bf08245de0da4f68)
 
 ## Task Management
 
