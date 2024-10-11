@@ -12,6 +12,7 @@ COPY package.json ./
 
 # Step 5: Copy the rest of the application source code
 COPY . .
+RUN rm -rf ./node_modules
 RUN pnpm install
 
 # Step 6: Build the Vite project for production
