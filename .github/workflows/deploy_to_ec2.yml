@@ -20,7 +20,7 @@ jobs:
       # stop old service and start a new one
       - name: Deploy to EC2
         run: |
-          ssh -o StrictHostKeyChecking=no adamma2048@34.75.81.44 << EOF
+          ssh -o StrictHostKeyChecking=no adamma2048@${{ secrets.EC2_IP }} << EOF
           cd seprojects-cs673a2f24_team5
           sudo bash docker_auto_start.sh stop
           git switch main
