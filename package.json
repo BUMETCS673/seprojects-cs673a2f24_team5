@@ -1,6 +1,6 @@
 {
   "name": "CVCoach",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "scripts": {
     "commit": "cz",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md"
