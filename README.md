@@ -12,6 +12,10 @@
 
 This repository is a project for METCS673. This project focuses on using AI to automate and improve the process of resume evaluation and interview preparation. By incorporating Retrieval-Augmented Generation (RAG), we ensure that our application can provide more accurate, context-relevant reviews.
 
+## CHANGELOG
+
+[📖 CHANGELOG.md](./CHANGELOG.md)
+
 ## How to start it with Docker?
 
 > Learn the [Docker](https://www.docker.com/) commands here.
