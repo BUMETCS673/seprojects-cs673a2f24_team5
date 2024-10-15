@@ -1,0 +1,5 @@
+{
+  "MONGO_URI": "Your-MongoDB-URI",
+  "MAX_CONTENT_LENGTH": 16777216,
+  "CHATGPT_API_KEY": "Your-OpenAI-API-Key"
+}

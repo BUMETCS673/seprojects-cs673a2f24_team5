@@ -34,7 +34,7 @@ def evaluate_resume(resume_text):
     """
     try:
         prompt = f"""
-        Please evaluate the following resume based on the criteria below, and structure your response according to the format provided:
+        Please evaluate the following resume based on the criteria below, and structure your response in JSON format:
 
         Criteria:
         1. Relevance of Job Description (30%)
@@ -44,31 +44,45 @@ def evaluate_resume(resume_text):
         5. Soft Skills (10%)
         6. Consistency and Chronology (10%)
 
-        The response should follow this format:
+        The response should be in the following JSON format:
 
-        ### Scores for each criteria:
-        1. Relevance of Job Description: X/100
-        2. Achievements and Impact: X/100
-        3. Education and Certifications: X/100
-        4. Resume Structure and Presentation: X/100
-        5. Soft Skills: X/100
-        6. Consistency and Chronology: X/100
-
-        ### Weighted Total Score: Y/100
-
-        ### Explanation for each criteria:
-        1. Relevance of Job Description:
-        [Explanation of the score]
-        2. Achievements and Impact:
-        [Explanation of the score]
-        3. Education and Certifications:
-        [Explanation of the score]
-        4. Resume Structure and Presentation:
-        [Explanation of the score]
-        5. Soft Skills:
-        [Explanation of the score]
-        6. Consistency and Chronology:
-        [Explanation of the score]
+        {{
+            "scores": {{
+                "Relevance of Job Description": X,
+                "Achievements and Impact": X,
+                "Education and Certifications": X,
+                "Resume Structure and Presentation": X,
+                "Soft Skills": X,
+                "Consistency and Chronology": X
+            }},
+            "weighted_total_score": Y,
+            "explanations": {{
+                "Relevance of Job Description": {{
+                    "score": X,
+                    "explanation": "[Explanation of the score]"
+                }},
+                "Achievements and Impact": {{
+                    "score": X,
+                    "explanation": "[Explanation of the score]"
+                }},
+                "Education and Certifications": {{
+                    "score": X,
+                    "explanation": "[Explanation of the score]"
+                }},
+                "Resume Structure and Presentation": {{
+                    "score": X,
+                    "explanation": "[Explanation of the score]"
+                }},
+                "Soft Skills": {{
+                    "score": X,
+                    "explanation": "[Explanation of the score]"
+                }},
+                "Consistency and Chronology": {{
+                    "score": X,
+                    "explanation": "[Explanation of the score]"
+                }}
+            }}
+        }}
 
         Resume: {resume_text}
         """
@@ -83,7 +97,9 @@ def evaluate_resume(resume_text):
         )
 
         evaluation = response.choices[0].message.content
-        return evaluation
+        # Return the JSON formatted evaluation
+        evaluation_json = json.loads(evaluation)
+        return evaluation_json
 
     except Exception as e:
         return f'Error evaluating resume: {str(e)}'
