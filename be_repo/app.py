@@ -1,11 +1,15 @@
 import json
 import os
+
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from pymongo.mongo_client import MongoClient
-from modules.upload import upload_parse_resume
+
 from modules.evaluator import evaluate_resume
+from modules.upload import upload_parse_resume
 
 app = Flask(__name__)
+CORS(app)
 
 config_path = os.path.join('configs', 'config.json')
 with open(config_path, 'r') as file:
