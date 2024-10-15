@@ -53,6 +53,7 @@ docker compose down/stop
 ## What's the CI/CD processes of this project?
 
 [📔 CI/CD Intro](./doc/CICD.md)
+[Developing workflow video](https://youtu.be/4Cvv7j7-0zw)
 
 ## Task Management
 
