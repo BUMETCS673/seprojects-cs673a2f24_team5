@@ -1,0 +1,12 @@
+services:
+  fe:
+    build:
+      context: ./fe_repo/
+      dockerfile: Dockerfile
+    image: adamma1024/cvcoach_web:v2.0
+    ports:
+      - "12345:8081"
+    environment:
+      - NODE_ENV=production
+    container_name: vite-frontend
+    restart: unless-stopped
