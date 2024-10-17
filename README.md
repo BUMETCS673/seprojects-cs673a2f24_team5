@@ -12,6 +12,10 @@
 
 This repository is a project for METCS673. This project focuses on using AI to automate and improve the process of resume evaluation and interview preparation. By incorporating Retrieval-Augmented Generation (RAG), we ensure that our application can provide more accurate, context-relevant reviews.
 
+## Task Management
+
+As per github's task tracking flow is difficult to use, we decide to use [JIRA Boards](https://bu-cs673a2f24-team-5.atlassian.net/jira/software/projects/SCRUM/boards/1) to trace the progress and manage the risk. Click the hyperlink to check details.
+
 ## CHANGELOG
 
 [📖 CHANGELOG.md](./CHANGELOG.md)
@@ -54,7 +58,3 @@ docker compose down/stop
 
 [📔 CI/CD Intro](./doc/CICD.md)
 [Developing workflow video](https://youtu.be/4Cvv7j7-0zw)
-
-## Task Management
-
-As per github's task tracking flow is difficult to use, we decide to use [JIRA](https://bu-cs673a2f24-team-5.atlassian.net/jira/software/projects/SCRUM/boards/1) to trace the progress and manage the risk.
