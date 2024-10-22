@@ -61,6 +61,10 @@ export function uploadFile(file: File) {
 }
 
 
+export function hasUserId() {
+  return localStorage.getItem('userId') !== null;
+}
+
 // user id
 export function getUserId() {
   let uuid;
