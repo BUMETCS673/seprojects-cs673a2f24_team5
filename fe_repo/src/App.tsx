@@ -13,7 +13,7 @@ function App() {
   const [messages, setMessages] = useState<Message[]>([])
 
 
-  const onSendMessage = (message: string) => {
+  const onSendMessage = async (message: string) => {
     const sendingMessage: Message = {
       text: 'Sending message...',
       isUser: false
@@ -26,13 +26,9 @@ function App() {
       },
       sendingMessage]);
 
-    setTimeout(() => {
-      // handle message sent, update conversation section
-      // const response = {text: sendMessage(message), isUser: false}
-      // remove sending prompt message
-      sendingMessage.text = sendMessage(message);
-      setMessages((messages) => [...messages]);
-    }, 1000);
+    const response = await sendMessage(message);
+    sendingMessage.text = response.response;
+    setMessages((messages) => [...messages]);
   }
 
   const onAnalyze = async (jd: string) => {

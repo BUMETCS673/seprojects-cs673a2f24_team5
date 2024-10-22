@@ -18,25 +18,24 @@ export type AnalzyeResponse = {
   }
 }
 
-export function sendMessage(message: string) {
-  // console.log("Sending message: " + message);
+export type QuestionResponse = {
+  response: string
+}
+
+export async function sendMessage(message: string): Promise<QuestionResponse> {
+  console.log("Sending message: " + message);
   try {
-    // TODO: Implement sending message after api schema is provided
-    // const response = await fetch('/api/chat', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({ message: message })
-    // });
-    // const data = await response.json();
-
-    const data = {
-      result: "Message accepted: " + message
-    }
-
-    return data.result;
+    return axios.post<QuestionResponse>(uri + '/chat',
+      {question: message, user_id: getUserId()},
+      {headers: {'Content-Type': 'multipart/form-data'}})
+      .then(response => response.data)
+      .catch(error => {
+        console.error('Error fetching response', error);
+        return {response: "An error occurred, please try again later."};
+      });
   } catch (error) {
     console.error('Error fetching the backend response', error);
-    return "An error occurred, please try again later.";
+    return {response: "An error occurred, please try again later."};
   }
 }
 
@@ -57,6 +56,7 @@ export function uploadFile(file: File) {
   console.log("uploading file", file.name);
   axios.post(uri + '/upload', {file: file, user_id: getUserId()},
     {headers: {'Content-Type': 'multipart/form-data'}})
+    .then(() => alert("Resume uploaded successfully"))
     .catch(error => console.error('Error fetching  response', error));
 }
 
