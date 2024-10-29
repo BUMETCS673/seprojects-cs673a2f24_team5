@@ -14,15 +14,6 @@ export const Header = () => {
           console.log("Google Login Success", response);
           if (response.credential) {
             setUserId(response.credential);
-            // const userInfo = await axios
-            //   .get('https://www.googleapis.com/oauth2/v3/userinfo', {
-            //     headers: {Authorization: `Bearer ${response.credential}`},
-            //   })
-            //   .then(res => res.data);
-            //
-            // console.log('userInfo:', userInfo);
-            // console.log('decode result: ', jwtDecode(response.credential, {header: true}));
-            // setProfile(jwtDecode(response.credential, {header: true}).name);
           }
         }}
         onError={() => console.log("Google Login Error")}
