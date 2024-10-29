@@ -1,6 +1,5 @@
 import {GoogleLogin} from "@react-oauth/google";
 import {hasUserId, setUserId} from "../functions/api.ts";
-// import axios from "axios";
 
 
 export const Header = () => {
