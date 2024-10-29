@@ -1,28 +1,19 @@
-import json
-import os
-
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from pymongo.mongo_client import MongoClient
 
+from configs.database import get_resume_database
 from modules.evaluator import evaluate_resume
 from modules.upload import upload_parse_resume
 
 app = Flask(__name__)
 CORS(app)
 
-config_path = os.path.join('configs', 'config.json')
-with open(config_path, 'r') as file:
-    config = json.load(file)
-
-# MongoDB
-client = MongoClient(config['MONGO_URI'])
+# Test MongoDB connection
 try:
-    database = client.get_database("resume_db")
+    database = get_resume_database()
     resume_collection = database.get_collection("resumes")
     query = {"user_id": "333"}
     resume = resume_collection.find_one(query)
-    print(resume)
 except Exception as e:
     raise Exception("Unable to find the document due to the following error: ", e)
 

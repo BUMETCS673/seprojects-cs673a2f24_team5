@@ -3,16 +3,7 @@ This module is responsible for evaluating resumes based on specified criteria.
 """
 
 import json
-import os
-from openai import OpenAI
-
-# Load the OpenAI API key
-config_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'configs', 'config.json')
-with open(config_path, 'r') as file:
-    config = json.load(file)
-client = OpenAI(
-    api_key=config['CHATGPT_API_KEY']
-)
+from configs.openai_client import get_openai_client
 
 # Define the scoring criteria and weights
 SCORING_CRITERIA = {
@@ -23,6 +14,8 @@ SCORING_CRITERIA = {
     'Soft Skills': 10,
     'Consistency and Chronology': 10
 }
+
+client = get_openai_client()
 
 
 def evaluate_resume(resume_text):

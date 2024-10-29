@@ -1,5 +1,4 @@
 {
-  "MONGO_URI": "Your-MongoDB-URI",
-  "MAX_CONTENT_LENGTH": 16777216,
-  "CHATGPT_API_KEY": "Your-OpenAI-API-Key"
+  "MONGO_URI": "mongodb+srv://cs673:2024cs673@cs673.a5f6b.mongodb.net/?retryWrites=true&w=majority&appName=CS673",
+  "MAX_CONTENT_LENGTH": 16777216
 }
