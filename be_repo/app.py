@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 from configs.database import get_resume_database
-from modules.evaluator import evaluate_resume
+from modules.evaluator import evaluate_resume, evaluate_resume_with_jd
 from modules.upload import upload_parse_resume
 
 app = Flask(__name__)
@@ -43,6 +43,30 @@ def resume_evaluate():
         return jsonify({"error": "Resume text is empty."}), 400
 
     analysis_result = evaluate_resume(resume_text)
+
+    return jsonify({"analysis": analysis_result}), 200
+
+
+@app.route('/resume_evaluate_with_JD', methods=['POST'])
+def resume_evaluate_with_JD():
+    user_id = request.form.get('user_id')
+    jd_text = request.form.get('jd_text')
+
+    if not user_id:
+        return jsonify({"error": "No user ID provided."}), 400
+    if not jd_text:
+        return jsonify({"error": "No job description text provided."}), 400
+
+    # Load resume from database
+    resume = resume_collection.find_one({"user_id": user_id})
+    if not resume:
+        return jsonify({"error": "No resume found for this user."}), 404
+
+    resume_text = resume.get('resume_text', '')
+    if not resume_text:
+        return jsonify({"error": "Resume text is empty."}), 400
+
+    analysis_result = evaluate_resume_with_jd(resume_text, jd_text)
 
     return jsonify({"analysis": analysis_result}), 200
 
