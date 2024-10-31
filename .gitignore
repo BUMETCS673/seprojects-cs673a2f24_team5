@@ -4,3 +4,4 @@ package-lock.json
 .DS_Store
 .vite
 /code/configs/config.json
+__pycache__

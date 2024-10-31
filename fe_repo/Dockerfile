@@ -18,6 +18,9 @@ RUN pnpm install
 # Step 6: Build the Vite project for production
 RUN pnpm build
 
+# Add test script for lab3
+RUN pnpm test:ci
+
 # Step 7: Run Vite's built-in preview server within a detached session
 CMD ["pnpm", "preview", "--host"]
 

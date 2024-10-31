@@ -1,12 +1,23 @@
 services:
+  be:
+    build:
+      context: ./be_repo/
+      dockerfile: Dockerfile
+    image: adamma1024/cvcoach_be:v2.1
+    ports:
+      - "5000:5000"
+    container_name: cvcoach_be
+    restart: unless-stopped
   fe:
     build:
       context: ./fe_repo/
       dockerfile: Dockerfile
-    image: adamma1024/cvcoach_web:v2.0
+    image: adamma1024/cvcoach_web:v2.1
+    depends_on: # add depends_on to guaranteen the order
+      - be
     ports:
       - "12345:8081"
     environment:
       - NODE_ENV=production
-    container_name: vite-frontend
+    container_name: cvcoach_fe
     restart: unless-stopped
