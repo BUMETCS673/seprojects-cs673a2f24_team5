@@ -1,14 +1,15 @@
-import {UploadIcon} from "../icons"
-import {Textarea} from '../components'
-import {useState} from "react";
-import {uploadFile} from "../functions/api.ts";
+import { UploadIcon } from "../icons"
+import { Textarea } from '../components'
+import { useState } from "react";
+import { uploadFile } from "../functions/api.ts";
+import xss from "xss";
 
 interface IChatBoxProps {
   onSendMessage: (message: string) => void;
   onAnalyze: (jd: string) => void;
 }
 
-export const ChatBox = ({onSendMessage, onAnalyze}: IChatBoxProps) => {
+export const ChatBox = ({ onSendMessage, onAnalyze }: IChatBoxProps) => {
 
   const [message, setMessage] = useState("");
   const [showPrompt, setShowPrompt] = useState(false);
@@ -66,7 +67,7 @@ export const ChatBox = ({onSendMessage, onAnalyze}: IChatBoxProps) => {
       }
       <div className="flex justify-start gap-2 mb-2">
         <div
-          style={{width: '64px', display: 'flex', justifyContent: 'center', cursor: 'pointer'}}
+          style={{ width: '64px', display: 'flex', justifyContent: 'center', cursor: 'pointer' }}
           onClick={() => {
             // Upload files
             const handleFiles = (event: Event) => {
@@ -86,7 +87,7 @@ export const ChatBox = ({onSendMessage, onAnalyze}: IChatBoxProps) => {
             input.click();
           }}
         >
-          <UploadIcon/>
+          <UploadIcon />
         </div>
         <button
           className="cursor-pointer px-4 py-2 rounded-full bg-blue-500 text-white text-sm flex items-center gap-1 hover:bg-blue-600 transition"
@@ -98,11 +99,11 @@ export const ChatBox = ({onSendMessage, onAnalyze}: IChatBoxProps) => {
         {/*💼 /!* Example icon for interview *!/*/}
       </div>
       {/* input row */}
-      <div style={{display: 'flex', alignItems: 'center'}}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
         <Textarea
           className="flex-1"
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          onChange={(e) => setMessage(xss(e.target.value))}
           onKeyUp={(e) => {
             // listen for enter key
             if (e.key === "Enter" && !e.shiftKey) {
