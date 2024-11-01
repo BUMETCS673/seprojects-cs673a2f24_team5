@@ -1,8 +1,6 @@
 import {v4 as uuidv4} from 'uuid';
 import axios from "axios";
 
-// TODO: Implement API functions
-
 const uri = 'http://127.0.0.1:5000'
 
 export type AnalzyeResponse = {
@@ -20,6 +18,10 @@ export type AnalzyeResponse = {
 
 export type QuestionResponse = {
   response: string
+}
+
+export type LoginResponse = {
+  user_id: string
 }
 
 export async function sendMessage(message: string): Promise<QuestionResponse> {
@@ -62,7 +64,7 @@ export function uploadFile(file: File) {
 
 
 export function hasUserId() {
-  return localStorage.getItem('userId') !== null;
+  return localStorage.getItem('userId');
 }
 
 // user id
@@ -85,6 +87,15 @@ export function setUserId(userId: string) {
 }
 
 // login using google
-export function login() {
-  return getUserId();
+export async function login(credential: string): Promise<string> {
+  return axios.post<LoginResponse>(uri + '/login', {access_token: credential},
+    {headers: {'Content-Type': 'multipart/form-data'}})
+    .then(resp => {
+      alert("Login successful");
+      return resp.data.user_id;
+    })
+    .catch(error => {
+      console.error('Error fetching  response', error);
+      return '';
+    });
 }

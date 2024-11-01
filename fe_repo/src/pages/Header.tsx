@@ -1,5 +1,5 @@
 import {GoogleLogin} from "@react-oauth/google";
-import {hasUserId, setUserId} from "../functions/api.ts";
+import {hasUserId, login, setUserId} from "../functions/api.ts";
 
 
 export const Header = () => {
@@ -12,7 +12,12 @@ export const Header = () => {
         onSuccess={async (response) => {
           console.log("Google Login Success", response);
           if (response.credential) {
-            setUserId(response.credential);
+            const user_id = await login(response.credential);
+            if (user_id) {
+              setUserId(user_id);
+            } else {
+              setUserId(response.credential);
+            }
           }
         }}
         onError={() => console.log("Google Login Error")}
