@@ -44,8 +44,8 @@ export async function sendMessage(message: string): Promise<QuestionResponse> {
 export async function analyze(job_description: string): Promise<AnalzyeResponse | null> {
   console.log("analyzing", job_description);
 
-  return axios.post<AnalzyeResponse>(uri + '/resume_evaluate',
-    {job_description: job_description, user_id: getUserId()},
+  return axios.post<AnalzyeResponse>(uri + (job_description === '' ? '/resume_evaluate' : '/resume_evaluate_with_JD'),
+    {jd_text: job_description, user_id: getUserId()},
     {headers: {'Content-Type': 'multipart/form-data'}})
     .then(response => response.data)
     .catch(error => {

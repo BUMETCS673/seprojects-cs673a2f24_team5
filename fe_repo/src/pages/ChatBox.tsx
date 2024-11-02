@@ -1,7 +1,7 @@
-import { UploadIcon } from "../icons"
-import { Textarea } from '../components'
-import { useState } from "react";
-import { uploadFile } from "../functions/api.ts";
+import {UploadIcon} from "../icons"
+import {Textarea} from '../components'
+import {useState} from "react";
+import {uploadFile} from "../functions/api.ts";
 import xss from "xss";
 
 interface IChatBoxProps {
@@ -25,10 +25,8 @@ export const ChatBox = ({ onSendMessage, onAnalyze }: IChatBoxProps) => {
   }
 
   const handleAnalyze = () => {
-    if (jobDescription.trim() !== "") {
-      // Call the analyze function with job description
-      onAnalyze(jobDescription);
-    }
+    // Call the analyze function with job description
+    onAnalyze(jobDescription);
     setShowPrompt(false);
     setJobDescription(""); // Clear the input after submission
   };

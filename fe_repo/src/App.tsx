@@ -38,7 +38,10 @@ function App() {
     };
 
     setMessages((messages) => [...messages,
-      {
+      jd === '' ? {
+        text: 'Analyze my resume',
+        isUser: true
+      } : {
         text: 'Analyze my resume based on the following job description:\n' + jd,
         isUser: true
       },
