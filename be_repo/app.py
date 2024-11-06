@@ -36,11 +36,11 @@ except Exception as e:
 
 
 @app.route('/upload', methods=['POST', 'OPTIONS'])
-def upload_resume(): 
+def upload_resume():
     if request.method == 'OPTIONS':
         # Allows the preflight request to succeed
         return jsonify({'status': 'OK'}), 200
-   
+
     user_id = request.form.get('user_id')
     if not user_id:
         return jsonify({"error": "No user ID provided."}), 400
@@ -52,15 +52,15 @@ def login():
     if request.method == 'OPTIONS':
         # Allows the preflight request to succeed
         return jsonify({'status': 'OK'}), 200
-    
+
     token = request.form.get('access_token')
     if not token:
         return jsonify({'status': 'error', 'message': 'ID token is missing'}), 400
-    
+
     try:
         # Verify the token with Google
         idinfo = id_token.verify_oauth2_token(token, google_requests.Request(), GOOGLE_CLIENT_ID)
-        
+
         if idinfo['aud'] != GOOGLE_CLIENT_ID:
             return jsonify({'status': 'error', 'message': 'Token audience mismatch'}), 400
 
@@ -70,12 +70,12 @@ def login():
         name = idinfo.get('name', 'No name available')
 
         # Create a session or JWT for the user
-        session.permanent = True 
+        session.permanent = True
         session['user'] = {'userid': userid, 'email': email, 'name': name}
 
         # Respond with success and optional user data
         return jsonify({'status': 'success', 'email': email, 'name': name}), 200
- 
+
     except ValueError as e:
         # Token verification failed
         print(f"Error verifying token: {str(e)}")
@@ -86,11 +86,11 @@ def resume_evaluate():
     if request.method == 'OPTIONS':
         # Allows the preflight request to succeed
         return jsonify({'status': 'OK'}), 200
-    
+
     user_id = request.form.get('user_id')
     if not user_id:
         return jsonify({"error": "No user ID provided."}), 400
-    
+
     # Load resume from database
     resume = resume_collection.find_one({"user_id": user_id})
     if not resume:
@@ -110,7 +110,7 @@ def resume_evaluate_with_JD():
     if request.method == 'OPTIONS':
         # Allows the preflight request to succeed
         return jsonify({'status': 'OK'}), 200
-    
+
     user_id = request.form.get('user_id')
     jd_text = request.form.get('jd_text')
     if not user_id:
