@@ -33,30 +33,30 @@ export const ChatBox = ({onSendMessage, onAnalyze}: IChatBoxProps) => {
 
 
   return (
-      <div className="border-2 p-4 flex flex-col bg-white rounded-lg shadow-md">
-        {/* Overlay and Modal for Job Description */
-            showPrompt && (
-                <>
-                  <div
-                      className="fixed inset-0 bg-black bg-opacity-50 z-40"
-                      onClick={() => setShowPrompt(false)}
-                  />
-                  <div
-                      className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-10 rounded-xl shadow-xl z-50 w-96">
-                    <h3 className="text-2xl font-bold mb-6">Enter a Job Description</h3>
-                    <Textarea
-                        className="w-full h-40 p-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm transition-all"
-                        value={jobDescription}
-                        onChange={(e) => setJobDescription(e.target.value)}
-                        placeholder="Enter job description here..."
-                    />
-                    <button
-                        className="mt-6 bg-blue-500 text-white font-semibold text-lg px-8 py-3 rounded-lg shadow-md hover:bg-blue-600 hover:shadow-lg transition-all w-full"
-                        onClick={handleAnalyze}
-                    >
-                      Submit
-                    </button>
-                  </div>
+    <div className="border-2 p-4 flex flex-col bg-white rounded-lg shadow-md">
+      {/* Overlay and Modal for Job Description */
+        showPrompt && (
+          <>
+            <div
+              className="fixed inset-0 bg-black bg-opacity-50 z-40"
+              onClick={() => setShowPrompt(false)}
+            />
+            <div
+              className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-10 rounded-xl shadow-xl z-50 w-96">
+              <h3 className="text-2xl font-bold mb-6">Enter a Job Description</h3>
+              <Textarea
+                className="w-full h-40 p-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm transition-all"
+                value={jobDescription}
+                onChange={(e) => setJobDescription(e.target.value)}
+                placeholder="Enter job description here..."
+              />
+              <button
+                className="mt-6 bg-blue-500 text-white font-semibold text-lg px-8 py-3 rounded-lg shadow-md hover:bg-blue-600 hover:shadow-lg transition-all w-full"
+                onClick={handleAnalyze}
+              >
+                Submit
+              </button>
+            </div>
 
                 </>
             )
