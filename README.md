@@ -14,10 +14,20 @@
 <p>
   <!-- <img src="https://img.shields.io/github/license/BUMETCS673/seprojects-cs673a2f24_team5" alt="license"/> -->
   <img src="https://img.shields.io/docker/pulls/adamma1024/cvcoach_web" alt="docker-pull-count" />
+  <img src="https://img.shields.io/docker/pulls/adamma1024/cvcoach_be" alt="be-docker-pull-count" />
   <a href="https://img.shields.io/badge/price-free-ff69b4"><img alt="Price" src="https://img.shields.io/badge/price-free-ff69b4?style=flat-square" /></a>
 </p>
 
 This repository is a project for METCS673. This project focuses on using AI to automate and improve the process of resume evaluation and interview preparation. By incorporating Retrieval-Augmented Generation (RAG), we ensure that our application can provide more accurate, context-relevant reviews.
+
+## Steps to start up and test (For TA and professor)
+
+```bash
+cd /rootPath
+docker compose up --build -d # Detach from the terminal
+```
+
+Then you can open your browser, and navigate to the <http://localhost:8081>
 
 ## Task Management
 
