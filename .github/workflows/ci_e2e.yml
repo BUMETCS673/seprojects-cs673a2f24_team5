@@ -69,11 +69,11 @@ jobs:
         run: sudo apt purge google-chrome-stable
 
       - name: Installing all necessary packages
-        run: pip install chromedriver-autoinstaller selenium pyvirtualdisplay
+        run: pip install chromedriver-autoinstaller selenium pyvirtualdisplay pytest
       - name: Install xvfb
         run: sudo apt-get install xvfb
 
 
       - name: Run E2E tests
         run: |
-          python ./be_repo/tests/test_e2e.py
+          pytest ./be_repo/tests/test_e2e.py

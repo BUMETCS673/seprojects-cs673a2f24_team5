@@ -7,10 +7,13 @@ on:
       - 'be_repo/**'
 
 permissions:
-  contents: read
+  contents: write
+  checks: write
+  pull-requests: write
 
 jobs:
-  build:
+  live-test:
+    name: Live Test
     runs-on: ubuntu-latest
 
     defaults:
@@ -19,15 +22,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python 3.10
+      - name: Set up Python 3.9
         uses: actions/setup-python@v3
         with:
-          python-version: "3.10"
+          python-version: "3.9"
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install flake8 pytest
+          pip install flake8 pytest pytest-cov
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Lint with flake8
@@ -37,6 +40,31 @@ jobs:
           # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-      - name: Test with pytest
+      - name: Build coverage file
         run: |
-          pytest --ignore=tests/test_e2e.py
+          pytest --ignore=tests/test_e2e.py --junitxml=pytest.xml \
+                 --cov=app --cov=modules \
+                 --cov-report=term-missing:skip-covered tests/ | tee pytest-coverage.txt
+
+      - name: Pytest coverage comment
+        id: coverageComment
+        uses: MishaKav/pytest-coverage-comment@main
+        with:
+          pytest-coverage-path: ./be_repo/pytest-coverage.txt
+          junitxml-path: ./be_repo/pytest.xml
+
+      - uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Update Readme with Coverage Html
+        run: |
+          sed -i '/<!-- Pytest Coverage Comment:Begin -->/,/<!-- Pytest Coverage Comment:End -->/c\<!-- Pytest Coverage Comment:Begin -->\n\${{ steps.coverageComment.outputs.coverageHtml }}\n<!-- Pytest Coverage Comment:End -->' ../README.md
+
+      - name: Commit & Push changes to Readme
+        uses: actions-js/push@master
+        with:
+          branch: dev/backend
+          message: Update coverage on Readme
+          github_token: ${{ secrets.GITHUB_TOKEN }}
