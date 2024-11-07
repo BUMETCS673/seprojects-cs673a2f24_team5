@@ -23,7 +23,7 @@ app.config.update(
     PERMANENT_SESSION_LIFETIME=timedelta(minutes=30),
 )
 
-GOOGLE_CLIENT_ID = '120137358324-l62fq2hlj9r31evvitg55rcl4rf21udd.apps.googleusercontent.com'
+GOOGLE_CLIENT_ID = ''
 
 # Test MongoDB connection
 try:
