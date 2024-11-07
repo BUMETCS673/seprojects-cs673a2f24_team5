@@ -22,12 +22,23 @@ This repository is a project for METCS673. This project focuses on using AI to a
 
 ## Steps to start up and test (For TA and professor)
 
+### If you'd like to clone our project (Recommended)
+
 ```bash
 cd /rootPath
 docker compose up --build -d # Detach from the terminal
 ```
 
 Then you can open your browser, and navigate to the <http://localhost:8081>
+
+### If you'd like to pull docker images
+
+We have two images separated for BE and FE.  
+
+1. adamma1024/cvcoach_be
+2. adamma1024/cvcoach_web
+
+Please make sure you've pulled all them on latest version (check it on Docker Hub) and start them correctly.
 
 ## Task Management
 
