@@ -1,9 +1,12 @@
+import os
 import pytest
 from modules.parser import convert_pdf_to_text
 
 
 def test_convert_pdf_to_text_success():
-    result = convert_pdf_to_text("../tests/test_resume.pdf")
+    current_dir = os.path.dirname(__file__)
+    file_path = os.path.join(current_dir, "test_resume.pdf")
+    result = convert_pdf_to_text(file_path)
     assert "John Doe" in result
 
 
