@@ -1,0 +1,77 @@
+name: CI for E2E
+
+on:
+  push:
+
+jobs:
+  e2e-test:
+    runs-on: ubuntu-latest
+
+    services:
+      frontend:
+        image: node:18
+        options: --network-alias frontend
+        env:
+          PORT: 3000
+        ports:
+          - 3000:3000
+
+      backend:
+        image: python:3.9
+        options: --network-alias backend
+        env:
+          PORT: 5000
+        ports:
+          - 5000:5000
+
+
+    steps:
+      # Step 1: Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Start FE
+      - name: Set up and start frontend
+        working-directory: ./fe_repo
+        run: |
+          npm install -g pnpm
+          pnpm i
+          pnpm lint
+          pnpm build
+          pnpm run dev &
+
+      # Step 3: Start BE
+      - name: Set up and start backend
+        working-directory: ./be_repo
+        run: |
+          pip install -r requirements.txt
+          python app.py &
+
+      # Step 4: Wair for BE and FE Services
+      - name: Wait for services to be ready
+        run: |
+          until curl -s http://localhost:3001; do
+            echo "Waiting for frontend to be ready..."
+            sleep 5
+          done
+
+          until curl -s http://localhost:5000; do
+            echo "Waiting for backend to be ready..."
+            sleep 5
+          done
+
+      # Step 5: Start E2E Test
+      - name: Installing package list
+        run: apt list --installed
+      - name: Removing previous chrome instances on runner
+        run: sudo apt purge google-chrome-stable
+
+      - name: Installing all necessary packages
+        run: pip install chromedriver-autoinstaller selenium pyvirtualdisplay
+      - name: Install xvfb
+        run: sudo apt-get install xvfb
+
+
+      - name: Run E2E tests
+        run: |
+          python ./be_repo/tests/test_e2e.py
