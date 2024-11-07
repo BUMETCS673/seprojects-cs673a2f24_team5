@@ -22,9 +22,9 @@ stop_and_remove() {
 	echo "Stopping the current container for $image_tag"
 	CURRENT_CONTAINER=$(docker ps -q -f ancestor=$image_tag)
 	if [ -n "$CURRENT_CONTAINER" ]; then
-		docker stop $CURRENT_CONTAINER
+		docker stop $CURRENT_CONTAINER -f
 		echo "Removing the current container for $CURRENT_CONTAINER"
-		docker rm $CURRENT_CONTAINER
+		docker rm $CURRENT_CONTAINER -f
 	else
 		echo "No running container found for $REPO."
 	fi
@@ -50,7 +50,7 @@ pull_and_start() {
 }
 
 # Main function to handle command-line arguments
-function main() {
+main() {
 	case "$1" in
 	stop)
 		stop_and_remove
