@@ -17,11 +17,11 @@ wait = WebDriverWait(driver, 10)
 
 try:
     WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.CLASS_NAME, "nsm7Bb-HzV7m-LgbsSe-MJoBVe"))
+        EC.presence_of_element_located((By.CSS_SELECTOR, '[aria-labelledby="button-label"]'))
     )
 
     # Google login
-    google_login_button = driver.find_element(By.CLASS_NAME, "nsm7Bb-HzV7m-LgbsSe")
+    google_login_button = driver.find_element(By.CSS_SELECTOR, '[aria-labelledby="button-label"]')
     # google_login_button.click()
 
     # Upload Resume
