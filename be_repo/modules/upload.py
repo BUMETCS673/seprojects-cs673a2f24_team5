@@ -12,7 +12,7 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-def upload_parse_resume(request, resume_collection):
+def upload_parse_resume(request, resume_collection, user_state_collection):
     if 'file' not in request.files:
         return jsonify({"error": "No file part in the request"}), 400
 
@@ -31,6 +31,13 @@ def upload_parse_resume(request, resume_collection):
             "resume_text": resume_text
         }
         result = resume_collection.replace_one({"user_id": user_id}, new_resume, upsert=True)
+
+        user_state = {
+            "user_id": user_id,
+            "state": "0",
+            "thread_id": "1"
+        }
+        user_state_collection.replace_one({"user_id": user_id}, user_state, upsert=True)
 
         if result.upserted_id:
             resume_id = str(result.upserted_id)

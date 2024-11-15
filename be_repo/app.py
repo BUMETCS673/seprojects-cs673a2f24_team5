@@ -2,11 +2,13 @@ from flask import Flask, request, jsonify, session
 from flask_cors import CORS
 from datetime import timedelta
 
-from configs.database import get_resume_database
+from configs.database import get_resume_database, get_user_database
 from modules.evaluator import evaluate_resume, evaluate_resume_with_jd
 from modules.upload import upload_parse_resume
+from modules.langgraph_qa import get_answer_from_langgraph
 from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
+from graphs.qa_graph import create_graph
 import secrets
 
 # Generate a secure random secret key
@@ -27,12 +29,18 @@ GOOGLE_CLIENT_ID = '120137358324-l62fq2hlj9r31evvitg55rcl4rf21udd.apps.googleuse
 
 # Test MongoDB connection
 try:
-    database = get_resume_database()
-    resume_collection = database.get_collection("resumes")
+    resume_database = get_resume_database()
+    resume_collection = resume_database.get_collection("resumes")
     query = {"user_id": "333"}
     resume = resume_collection.find_one(query)
+    user_database = get_user_database()
+    user_state_collection = user_database.get_collection("user_chat_state")
+    query = {"user_id": "test"}
+    user_state = user_state_collection.find_one(query)
 except Exception as e:
     raise Exception("Unable to find the document due to the following error: ", e)
+
+qa_graph = create_graph()
 
 
 @app.route('/upload', methods=['POST', 'OPTIONS'])
@@ -45,7 +53,8 @@ def upload_resume():
     if not user_id:
         return jsonify({"error": "No user ID provided."}), 400
     # Vector the resume text
-    return upload_parse_resume(request, resume_collection)
+    return upload_parse_resume(request, resume_collection, user_state_collection)
+
 
 @app.route('/login', methods=['POST', 'OPTIONS'])
 def login():
@@ -80,6 +89,7 @@ def login():
         # Token verification failed
         print(f"Error verifying token: {str(e)}")
         return jsonify({'status': 'error', 'message': 'Invalid ID token'}), 400
+
 
 @app.route('/resume_evaluate', methods=['POST', 'OPTIONS'])
 def resume_evaluate():
@@ -130,6 +140,25 @@ def resume_evaluate_with_JD():
     analysis_result = evaluate_resume_with_jd(resume_text, jd_text)
 
     return jsonify({"analysis": analysis_result}), 200
+
+
+@app.route('/chat', methods=['POST', 'OPTIONS'])
+def ask_question():
+    if request.method == 'OPTIONS':
+        return jsonify({'status': 'OK'}), 200
+
+    user_id = request.form.get('user_id')
+    question = request.form.get('question')
+
+    if not user_id:
+        return jsonify({"error": "No user ID provided."}), 400
+    if not question:
+        return jsonify({"error": "No question provided."}), 400
+
+    # Get answer using LangGraph
+    response = get_answer_from_langgraph(qa_graph, resume_collection, user_state_collection, user_id, question)
+
+    return jsonify({"response": response}), 200
 
 
 if __name__ == '__main__':
