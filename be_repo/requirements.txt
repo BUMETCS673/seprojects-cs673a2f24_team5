@@ -1,6 +1,6 @@
 Flask==3.0.3
 Flask_Cors==5.0.0
-openai==1.51.2
+openai==1.54.4
 pandas==2.2.3
 pymongo==4.10.1
 PyPDF2==3.0.1
