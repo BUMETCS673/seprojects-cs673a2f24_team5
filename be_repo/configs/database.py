@@ -14,6 +14,11 @@ def get_resume_database(db_name="resume_db"):
     return client[db_name]
 
 
+def get_user_database(db_name="user_db"):
+    client = get_mongo_client()
+    return client[db_name]
+
+
 def get_key_database(db_name="key_db"):
     client = get_mongo_client()
     return client[db_name]
