@@ -96,4 +96,4 @@ def test_analyze_resume_with_jd(driver, wait):
     content_text = " ".join([element.text for element in elements])
     for keyword in keywords:
         count = content_text.count(keyword)
-        assert count == 1, f"'{keyword}' does not appear exactly twice in the content (found {count} times)"
+        assert count == 2, f"'{keyword}' does not appear exactly twice in the content (found {count} times)"
