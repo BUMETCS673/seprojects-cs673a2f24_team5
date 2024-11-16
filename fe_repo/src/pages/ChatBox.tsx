@@ -9,7 +9,7 @@ interface IChatBoxProps {
   onAnalyze: (jd: string) => void;
 }
 
-export const ChatBox = ({onSendMessage, onAnalyze}: IChatBoxProps) => {
+export const ChatBox = ({onSendMessage, onAnalyze, onSuggest}: IChatBoxProps) => {
 
   const [message, setMessage] = useState("");
   const [showPrompt, setShowPrompt] = useState(false);
@@ -87,10 +87,16 @@ export const ChatBox = ({onSendMessage, onAnalyze}: IChatBoxProps) => {
             />
           </div>
           <button
-              className="cursor-pointer px-4 py-2 rounded-full bg-blue-500 text-white text-sm flex items-center gap-1 hover:bg-blue-600 transition"
-              onClick={() => setShowPrompt(true)}
+            className="cursor-pointer px-4 py-2 rounded-full bg-blue-500 text-white text-sm flex items-center gap-1 hover:bg-blue-600 transition"
+            onClick={() => setShowPrompt(true)}
           >
             <span className="text-base">📄</span> Analyze my resume
+          </button>
+          <button
+            className="cursor-pointer px-4 py-2 rounded-full bg-blue-500 text-white text-sm flex items-center gap-1 hover:bg-blue-600 transition"
+            onClick={() => onSuggest()}
+          >
+            <span className="text-base">🛈</span> Interview question suggestion
           </button>
           {/*🛈 /!* Example icon - you can use actual icons here *!/*/}
           {/*💼 /!* Example icon for interview *!/*/}
