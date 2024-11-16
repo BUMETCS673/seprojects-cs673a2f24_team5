@@ -1,6 +1,6 @@
 import {ChatBox, Content, Header} from './pages'
 import {ReactNode, useState} from "react";
-import {analyze, sendMessage} from "./functions/api.ts";
+import {analyze, sendMessage, suggest} from "./functions/api.ts";
 
 export type Message = {
   text: string | ReactNode,
@@ -77,11 +77,35 @@ function App() {
     setMessages((messages) => [...messages]);
   }
 
+  const onSuggest = async () => {
+    const sendingMessage: Message = {
+      text: 'Waiting for interview question suggestions...',
+      isUser: false
+    };
+    // show loading message
+    setMessages((messages) => [...messages, {
+      text: 'Suggest interview questions',
+      isUser: true
+    }, sendingMessage]);
+    // show loading message
+    const response = await suggest();
+    if (null === response) {
+      sendingMessage.text = "Something went wrong, please try again later."
+    } else {
+      sendingMessage.text = (
+        <>
+          <div className="font-bold">Suggested questions:<br/>{response.response}</div>
+        </>
+      );
+    }
+    setMessages((messages) => [...messages]);
+  }
+
   return (
     <div className="flex flex-col h-screen bg-gray-100 p-5">
       <Header/>
       <Content messages={messages}></Content>
-      <ChatBox onSendMessage={onSendMessage} onAnalyze={onAnalyze}></ChatBox>
+      <ChatBox onSendMessage={onSendMessage} onAnalyze={onAnalyze} onSuggest={onSuggest}></ChatBox>
     </div>
   )
 }
