@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 import axios from "axios";
 
 const uri = 'http://localhost:5000'
@@ -74,8 +74,14 @@ export function uploadFile(file: File) {
   console.log("uploading file", file.name);
   axios.post(uri + '/upload', { file: file, user_id: getUserId() },
     { headers: { 'Content-Type': 'multipart/form-data' } })
-    .then(() => alert("Resume uploaded successfully"))
-    .catch(error => console.error('Error fetching  response', error));
+    .then(() => {
+      alert("Resume uploaded successfully");
+      setHasResume(true);
+    })
+    .catch(error => {
+      console.error('Error uploading resume', error);
+      alert("Cannot upload resume at this time, please try again later.");
+    });
 }
 
 
@@ -100,6 +106,20 @@ export function setUserId(userId: string) {
     return;
   }
   localStorage.setItem('userId', userId);
+}
+
+export function getHasResume() {
+  if (typeof window === 'undefined') {
+    return;
+  }
+  return Boolean(localStorage.getItem('hasResume'));
+}
+
+export function setHasResume(hasResume: boolean) {
+  if (typeof window === 'undefined') {
+    return;
+  }
+  localStorage.setItem('hasResume', String(hasResume));
 }
 
 // login using google
