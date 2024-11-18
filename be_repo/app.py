@@ -52,7 +52,6 @@ def upload_resume():
     user_id = request.form.get('user_id')
     if not user_id:
         return jsonify({"error": "No user ID provided."}), 400
-    # Vector the resume text
     return upload_parse_resume(request, resume_collection, user_state_collection)
 
 
