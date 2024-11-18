@@ -12,7 +12,7 @@ services:
     build:
       context: ./fe_repo/
       dockerfile: Dockerfile
-    image: adamma1024/cvcoach_web:v2.1
+    image: adamma1024/cvcoach_web:v3.3
     depends_on: # add depends_on to guaranteen the order
       - be
     ports:
