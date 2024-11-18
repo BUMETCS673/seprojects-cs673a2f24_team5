@@ -65,6 +65,7 @@ jobs:
       - name: Commit & Push changes to Readme
         uses: actions-js/push@master
         with:
-          branch: dev/backend
+          branch: |
+            ${{ github.ref_name == 'main' && 'dev/backend' || github.ref_name.startsWith('be/') && github.ref_name || 'dev/backend' }}
           message: Update coverage on Readme
           github_token: ${{ secrets.GITHUB_TOKEN }}
