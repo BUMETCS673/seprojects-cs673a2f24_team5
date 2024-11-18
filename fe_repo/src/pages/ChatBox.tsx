@@ -7,6 +7,7 @@ import xss from "xss";
 interface IChatBoxProps {
   onSendMessage: (message: string) => void;
   onAnalyze: (jd: string) => void;
+  onSuggest: () => void;
 }
 
 export const ChatBox = ({onSendMessage, onAnalyze, onSuggest}: IChatBoxProps) => {
