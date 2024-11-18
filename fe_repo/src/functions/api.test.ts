@@ -1,5 +1,5 @@
 import {expect, test} from 'vitest';
-import {analyze, login, sendMessage, suggest, uploadFile} from "./api.ts";
+import {analyze, getHasResume, getUserId, login, sendMessage, suggest, uploadFile} from "./api.ts";
 
 test('sendMessage', () => {
   expect(sendMessage("I'm adam")).toBeDefined();
@@ -28,4 +28,14 @@ test('login', () => {
 test('suggest', () => {
   // make sure message is always returned
   expect(async () => (await suggest())).toBeDefined();
+})
+
+test('getUserId', () => {
+  // make sure message is always returned
+  expect(getUserId()).toBeDefined();
+})
+
+test('getHasResume', () => {
+  // make sure message is always returned
+  expect(getHasResume()).toBeDefined();
 })
