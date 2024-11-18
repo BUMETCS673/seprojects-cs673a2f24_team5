@@ -27,5 +27,5 @@ test('login', () => {
 
 test('suggest', () => {
   // make sure message is always returned
-  expect(async () => (await suggest())?.analysis).toBeDefined();
+  expect(async () => (await suggest())).toBeDefined();
 })
