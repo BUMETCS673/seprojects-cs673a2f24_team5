@@ -46,6 +46,7 @@ def wait(driver):
 
 
 def upload_resume(driver, wait):
+    driver.get(FRONTEND_URL)
     wait.until(lambda d: d.execute_script("return document.readyState") == "complete")
 
     # Upload resume
@@ -57,7 +58,6 @@ def upload_resume(driver, wait):
 
 
 def test_resume_upload(driver, wait):
-    driver.get(FRONTEND_URL)
     # Check for alert after upload
     alert = upload_resume(driver, wait)
     alert_text = alert.text
