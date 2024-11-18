@@ -1,15 +1,16 @@
-from flask import Flask, request, jsonify, session
-from flask_cors import CORS
+import secrets
 from datetime import timedelta
 
-from configs.database import get_resume_database, get_user_database
-from modules.evaluator import evaluate_resume, evaluate_resume_with_jd
-from modules.upload import upload_parse_resume
-from modules.langgraph_qa import get_answer_from_langgraph
-from google.oauth2 import id_token
+from flask import Flask, request, jsonify, session
+from flask_cors import CORS
 from google.auth.transport import requests as google_requests
+from google.oauth2 import id_token
+
+from configs.database import get_resume_database, get_user_database
 from graphs.qa_graph import create_graph
-import secrets
+from modules.evaluator import evaluate_resume, evaluate_resume_with_jd
+from modules.langgraph_qa import get_answer_from_langgraph
+from modules.upload import upload_parse_resume
 
 # Generate a secure random secret key
 secret_key = secrets.token_hex(32)  # Generates a 64-character hexadecimal string
@@ -156,6 +157,47 @@ def ask_question():
 
     # Get answer using LangGraph
     response = get_answer_from_langgraph(qa_graph, resume_collection, user_state_collection, user_id, question)
+
+    return jsonify({"response": response}), 200
+
+@app.route('/suggest/interiew_question', methods=['POST', 'OPTIONS'])
+def interview_question_suggestion():
+    if request.method == 'OPTIONS':
+        return jsonify({'status': 'OK'}), 200
+
+    user_id = request.form.get('user_id')
+    prompt = """
+        Please suggest possible interview questions based on the resume. Refer to following criteria when suggesting:
+
+        Criteria:
+        1. Project related technologies and how are they used in the project.
+        2. Experience in the field of technology.
+        3. What technologies and tools are used in the project.
+        4. What technologies and tools are used to acquire the certification and awards.
+        5. Work experience in the field of technology (if any).
+        
+        Your response should be structured as follows, using the information you get from the resume:
+        The idea you get the following questions, such as the project, technologies used, certification and awards:
+        1. Question 1
+        2. Question 2
+        3. ...
+        
+        For example, you can make suggestions like:
+        AWS related questions:
+        1. How do you use AWS services in your project?
+        2. What do you know about AWS?
+        3. What is the structure of your AWS environment?
+        
+        Replace the questions with your own based on the information you get from the resume. 
+        Follow this format for all categories of questions.
+        Your response should contain only categorized questions. Do not include unrelated information.
+        """
+
+    if not user_id:
+        return jsonify({"error": "No user ID provided."}), 400
+
+    # Get answer using LangGraph
+    response = get_answer_from_langgraph(qa_graph, resume_collection, user_state_collection, user_id, prompt)
 
     return jsonify({"response": response}), 200
 
