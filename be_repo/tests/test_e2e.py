@@ -50,7 +50,6 @@ def test_resume_upload(driver, wait):
     wait.until(lambda d: d.execute_script("return document.readyState") == "complete")
 
     # Upload resume
-    upload_div = driver.find_element(By.CSS_SELECTOR, "div.resume-upload")
     file_input = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "input[type='file']")))
 
     file_path = os.path.join(os.path.dirname(__file__), 'test_resume.pdf')
@@ -65,10 +64,10 @@ def test_resume_upload(driver, wait):
 
 def test_analyze_resume(driver, wait):
     # Analyze resume
-    analyze_button = driver.find_element(By.CLASS_NAME, "cursor-pointer")
+    analyze_button = driver.find_element(By.CLASS_NAME, "resume-analyze")
     analyze_button.click()
 
-    submit_button = driver.find_element(By.CLASS_NAME, "mt-6")
+    submit_button = driver.find_element(By.CLASS_NAME, "resume-analyze-submit")
     submit_button.click()
 
     time.sleep(20)  # Ensure analysis completes
@@ -82,12 +81,12 @@ def test_analyze_resume(driver, wait):
 
 def test_analyze_resume_with_jd(driver, wait):
     # Analyze resume with JD
-    analyze_button = driver.find_element(By.CLASS_NAME, "cursor-pointer")
+    analyze_button = driver.find_element(By.CLASS_NAME, "resume-analyze")
     analyze_button.click()
-    textarea = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "textarea.w-full.h-40.p-4.border-2")))
+    textarea = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "resume-analyze-jd")))
     textarea.send_keys("Sample job description text")
 
-    submit_button = driver.find_element(By.CLASS_NAME, "mt-6")
+    submit_button = driver.find_element(By.CLASS_NAME, "resume-analyze-submit")
     submit_button.click()
 
     time.sleep(20)  # Ensure analysis completes
