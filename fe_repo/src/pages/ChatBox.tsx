@@ -77,8 +77,7 @@ export const ChatBox = ({onSendMessage, onAnalyze, onSuggest}: IChatBoxProps) =>
       }
       <div className="flex justify-start gap-2 mb-2">
         <div
-          className="cursor-pointer px-4 py-2 rounded-full bg-blue-500 text-white text-sm flex items-center gap-1 hover:bg-blue-600 transition"
-          key="resume-upload"
+          className="cursor-pointer px-4 py-2 rounded-full bg-blue-500 text-white text-sm flex items-center gap-1 hover:bg-blue-600 transition resume-upload"
           onClick={() => {
             document.getElementById('fileInput')?.click();
           }}

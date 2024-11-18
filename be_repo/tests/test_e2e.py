@@ -50,7 +50,7 @@ def test_resume_upload(driver, wait):
     wait.until(lambda d: d.execute_script("return document.readyState") == "complete")
 
     # Upload resume
-    upload_div = driver.find_element(By.CSS_SELECTOR, "div[key*='resume-upload']")
+    upload_div = driver.find_element(By.CSS_SELECTOR, "div[className*='resume-upload']")
     file_input = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "input[type='file']")))
 
     file_path = os.path.join(os.path.dirname(__file__), 'test_resume.pdf')
