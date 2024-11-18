@@ -54,15 +54,15 @@ def upload_resume(driver, wait):
 
     file_path = os.path.join(os.path.dirname(__file__), 'test_resume.pdf')
     file_input.send_keys(file_path)
-    return wait.until(EC.alert_is_present())
+    alert = wait.until(EC.alert_is_present())
+    alert_text = alert.text
+    assert "Resume uploaded successfully" in alert_text
+    alert.accept()
 
 
 def test_resume_upload(driver, wait):
     # Check for alert after upload
-    alert = upload_resume(driver, wait)
-    alert_text = alert.text
-    assert "Resume uploaded successfully" in alert_text
-    alert.accept()
+    upload_resume(driver, wait)
 
 
 def test_analyze_resume(driver, wait):
