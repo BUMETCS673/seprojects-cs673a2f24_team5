@@ -45,8 +45,7 @@ def wait(driver):
     return WebDriverWait(driver, 20)
 
 
-def test_resume_upload(driver, wait):
-    driver.get(FRONTEND_URL)
+def upload_resume(driver, wait):
     wait.until(lambda d: d.execute_script("return document.readyState") == "complete")
 
     # Upload resume
@@ -54,6 +53,11 @@ def test_resume_upload(driver, wait):
 
     file_path = os.path.join(os.path.dirname(__file__), 'test_resume.pdf')
     file_input.send_keys(file_path)
+
+
+def test_resume_upload(driver, wait):
+    driver.get(FRONTEND_URL)
+    upload_resume(driver, wait)
 
     # Check for alert after upload
     alert = wait.until(EC.alert_is_present())
@@ -63,6 +67,8 @@ def test_resume_upload(driver, wait):
 
 
 def test_analyze_resume(driver, wait):
+    # upload resume first
+    upload_resume(driver, wait)
     # Analyze resume
     analyze_button = driver.find_element(By.CLASS_NAME, "resume-analyze")
     analyze_button.click()
@@ -80,6 +86,8 @@ def test_analyze_resume(driver, wait):
 
 
 def test_analyze_resume_with_jd(driver, wait):
+    # upload resume first
+    upload_resume(driver, wait)
     # Analyze resume with JD
     analyze_button = driver.find_element(By.CLASS_NAME, "resume-analyze")
     analyze_button.click()
