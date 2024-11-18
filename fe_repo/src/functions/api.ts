@@ -75,12 +75,16 @@ export function uploadFile(file: File) {
   axios.post(uri + '/upload', { file: file, user_id: getUserId() },
     { headers: { 'Content-Type': 'multipart/form-data' } })
     .then(() => {
-      alert("Resume uploaded successfully");
+      if (typeof window !== 'undefined') {
+        alert("Resume uploaded successfully");
+      }
       setHasResume(true);
     })
     .catch(error => {
       console.error('Error uploading resume', error);
-      alert("Cannot upload resume at this time, please try again later.");
+      if (typeof window !== 'undefined') {
+        alert("Cannot upload resume at this time, please try again later.");
+      }
     });
 }
 
@@ -110,7 +114,7 @@ export function setUserId(userId: string) {
 
 export function getHasResume() {
   if (typeof window === 'undefined') {
-    return;
+    return false;
   }
   return Boolean(localStorage.getItem('hasResume'));
 }
