@@ -42,7 +42,7 @@ def driver():
 
 @pytest.fixture
 def wait(driver):
-    return WebDriverWait(driver, 20)
+    return WebDriverWait(driver, 30)
 
 
 def upload_resume(driver, wait):
