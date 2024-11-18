@@ -1,13 +1,13 @@
-import pytest
 import os
 import time
-from selenium import webdriver
+
 import chromedriver_autoinstaller
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+import pytest
 from pyvirtualdisplay import Display
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 FRONTEND_URL = "http://localhost:3001"
 keywords = [
@@ -50,7 +50,7 @@ def test_resume_upload(driver, wait):
     wait.until(lambda d: d.execute_script("return document.readyState") == "complete")
 
     # Upload resume
-    upload_div = driver.find_element(By.CSS_SELECTOR, "div[style*='cursor: pointer'][style*='display: flex']")
+    upload_div = driver.find_element(By.CSS_SELECTOR, "div[key='resume-upload']")
     file_input = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "input[type='file']")))
 
     file_path = os.path.join(os.path.dirname(__file__), 'test_resume.pdf')
