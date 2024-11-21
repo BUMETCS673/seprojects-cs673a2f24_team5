@@ -203,7 +203,7 @@ def interview_question_suggestion():
 
 
 @app.route('/suggest/jobs', methods=['POST', 'OPTIONS'])
-def interview_question_suggestion():
+def job_suggestion():
     if request.method == 'OPTIONS':
         return jsonify({'status': 'OK'}), 200
 
