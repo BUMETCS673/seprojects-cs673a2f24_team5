@@ -30,6 +30,11 @@ test('suggest', () => {
   expect(async () => (await suggest())).toBeDefined();
 })
 
+test('suggestJob', () => {
+  // make sure message is always returned
+  expect(async () => (await suggestJob())).toBeDefined();
+})
+
 test('getUserId', () => {
   // make sure message is always returned
   expect(getUserId()).toBeDefined();

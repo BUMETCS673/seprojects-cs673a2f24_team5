@@ -8,9 +8,10 @@ interface IChatBoxProps {
   onSendMessage: (message: string) => void;
   onAnalyze: (jd: string) => void;
   onSuggest: () => void;
+  onSuggestJob: () => void;
 }
 
-export const ChatBox = ({onSendMessage, onAnalyze, onSuggest}: IChatBoxProps) => {
+export const ChatBox = ({onSendMessage, onAnalyze, onSuggest, onSuggestJob}: IChatBoxProps) => {
 
   const [message, setMessage] = useState("");
   const [showPrompt, setShowPrompt] = useState(false);
@@ -122,6 +123,18 @@ export const ChatBox = ({onSendMessage, onAnalyze, onSuggest}: IChatBoxProps) =>
           }}
         >
           <span className="text-base">🛈</span> Interview question suggestion
+        </button>
+        <button
+          className="cursor-pointer px-4 py-2 rounded-full bg-blue-500 text-white text-sm flex items-center gap-1 hover:bg-blue-600 transition"
+          onClick={() => {
+            if (!hasResume) {
+              alert("Please upload your resume.");
+              return;
+            }
+            onSuggestJob();
+          }}
+        >
+          <span className="text-base">💼</span> Job suggestion
         </button>
         {/*🛈 /!* Example icon - you can use actual icons here *!/*/}
         {/*💼 /!* Example icon for interview *!/*/}

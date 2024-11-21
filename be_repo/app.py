@@ -202,5 +202,21 @@ def interview_question_suggestion():
     return jsonify({"response": response}), 200
 
 
+@app.route('/suggest/jobs', methods=['POST', 'OPTIONS'])
+def interview_question_suggestion():
+    if request.method == 'OPTIONS':
+        return jsonify({'status': 'OK'}), 200
+
+    user_id = request.form.get('user_id')
+
+    if not user_id:
+        return jsonify({"error": "No user ID provided."}), 400
+
+    # Get answer using LangGraph
+    response = 'Example response'
+
+    return jsonify({"response": response}), 200
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True, port=5000)
