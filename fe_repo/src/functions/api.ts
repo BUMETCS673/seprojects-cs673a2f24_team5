@@ -40,6 +40,22 @@ export async function suggest(): Promise<QuestionResponse | null> {
   }
 }
 
+export async function suggestJob(): Promise<QuestionResponse | null> {
+  try {
+    return axios.post<QuestionResponse>(uri + '/suggest/jobs',
+      {user_id: getUserId()},
+      {headers: {'Content-Type': 'multipart/form-data'}})
+      .then(response => response.data)
+      .catch(error => {
+        console.error('Error fetching response', error);
+        return null;
+      });
+  } catch (error) {
+    console.error('Error fetching the backend response', error);
+    return null;
+  }
+}
+
 export async function sendMessage(message: string): Promise<QuestionResponse> {
   console.log("Sending message: " + message);
   try {
