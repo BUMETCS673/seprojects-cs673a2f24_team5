@@ -38,6 +38,11 @@ try:
     user_state_collection = user_database.get_collection("user_chat_state")
     query = {"user_id": "test"}
     user_state = user_state_collection.find_one(query)
+    # update all user state to 0
+    update_result = user_state_collection.update_many(
+        {},
+        {"$set": {"state": 0}}
+    )
 except Exception as e:
     raise Exception("Unable to find the document due to the following error: ", e)
 
@@ -159,6 +164,7 @@ def ask_question():
     response = get_answer_from_langgraph(qa_graph, resume_collection, user_state_collection, user_id, question)
 
     return jsonify({"response": response}), 200
+
 
 @app.route('/suggest/interiew_question', methods=['POST', 'OPTIONS'])
 def interview_question_suggestion():
