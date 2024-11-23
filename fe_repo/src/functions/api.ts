@@ -1,7 +1,7 @@
 import {v4 as uuidv4} from 'uuid';
 import axios from "axios";
 
-const uri = 'http://localhost:5000'
+const uri = 'http://34.23.225.150:5000'
 
 export type AnalzyeResponse = {
   analysis: {
@@ -27,8 +27,8 @@ export type LoginResponse = {
 export async function suggest(): Promise<QuestionResponse | null> {
   try {
     return axios.post<QuestionResponse>(uri + '/suggest/interiew_question',
-      {user_id: getUserId()},
-      {headers: {'Content-Type': 'multipart/form-data'}})
+      { user_id: getUserId() },
+      { headers: { 'Content-Type': 'multipart/form-data' } })
       .then(response => response.data)
       .catch(error => {
         console.error('Error fetching response', error);
