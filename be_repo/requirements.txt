@@ -15,4 +15,9 @@ langchain==0.3.7
 langsmith==0.1.143
 langchain_community==0.3.7
 langchain-openai==0.2.8
+langchain_neo4j==0.1.1
+neo4j==5.27.0
+protobuf==3.20.2
+pytest==8.3.3
+chromedriver_autoinstaller==0.6.4
 pyvirtualdisplay

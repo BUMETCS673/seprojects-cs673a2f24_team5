@@ -9,6 +9,7 @@ from google.oauth2 import id_token
 from configs.database import get_resume_database, get_user_database
 from graphs.qa_graph import create_graph
 from modules.evaluator import evaluate_resume, evaluate_resume_with_jd
+from modules.job_recommendation_system import job_recommend
 from modules.langgraph_qa import get_answer_from_langgraph
 from modules.upload import upload_parse_resume
 
@@ -218,10 +219,17 @@ def job_suggestion():
     if not user_id:
         return jsonify({"error": "No user ID provided."}), 400
 
-    # Get answer using LangGraph
-    response = 'Example response'
+    # Load resume from database
+    resume = resume_collection.find_one({"user_id": user_id})
+    if not resume:
+        return jsonify({"error": "No resume found for this user."}), 404
 
-    return jsonify({"response": response}), 200
+    # Get answer using LangGraph
+    resume_text = resume.get('resume_text', '')
+    if not resume_text:
+        return jsonify({"error": "Resume text is empty."}), 400
+
+    return jsonify({"response": job_recommend(resume_text, user_id)}), 200
 
 
 if __name__ == '__main__':
