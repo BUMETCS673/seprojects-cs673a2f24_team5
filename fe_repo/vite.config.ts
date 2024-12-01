@@ -14,7 +14,7 @@ export default defineConfig(({command}) => {
     },
     plugins: [react()],
     define: {
-      __CURRENT_URI__: JSON.stringify(command == 'serve' ? 'http://cvcoach.site' : 'http://localhost')
+      __CURRENT_URI__: JSON.stringify(command == 'serve' ? 'http://34.23.225.150' : 'http://localhost')
     }
   };
 })
