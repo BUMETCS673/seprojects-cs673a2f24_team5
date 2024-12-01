@@ -62,10 +62,14 @@ jobs:
         run: |
           sed -i '/<!-- Pytest Coverage Comment:Begin -->/,/<!-- Pytest Coverage Comment:End -->/c\<!-- Pytest Coverage Comment:Begin -->\n\${{ steps.coverageComment.outputs.coverageHtml }}\n<!-- Pytest Coverage Comment:End -->' ../README.md
 
+      - name: Debug current branch
+        run: |
+          echo "head ref: ${{ github.head_ref }} "
+          echo "ref name: ${{ github.ref_name }} "
+
       - name: Commit & Push changes to Readme
-        uses: actions-js/push@master
+        uses: ad-m/github-push-action@master
         with:
-          branch: |
-            ${{ github.ref_name == 'main' && 'dev/backend' || github.ref_name.startsWith('be/') && github.ref_name || 'dev/backend' }}
+          branch: ${{ github.head_ref || github.ref_name }}
           message: Update coverage on Readme
           github_token: ${{ secrets.GITHUB_TOKEN }}
