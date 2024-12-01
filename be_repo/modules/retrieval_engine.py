@@ -96,7 +96,8 @@ class RetrievalEngine:
         for doc in similar_docs:
             print("Document Metadata:", doc.metadata)
 
-        query = f"Based on the following resume, recommend relevant job positions: {resume_text}"
+        query = (f"Based on the following resume, recommend relevant job positions based on skills and experience, "
+                 f"while ignoring the location: {resume_text}")
         graph_response = self.graph_chain.invoke({"query": query, "schema": schema})
         # After graph query
         print("Graph Response:")
