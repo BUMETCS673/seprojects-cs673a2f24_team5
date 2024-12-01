@@ -91,7 +91,10 @@ export const ChatBox = ({onSendMessage, onAnalyze, onSuggest, onSuggestJob}: ICh
             style={{display: 'none'}}
             onChange={async (event) => {
               const files = event.target.files;
-              if (!files || files.length === 0) return;
+              if (!files || files.length === 0) {
+                console.log("No file selected");
+                return;
+              }
               const file = files[0];
               if (file) {
                 await uploadFile(file);
