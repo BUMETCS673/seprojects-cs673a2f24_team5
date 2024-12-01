@@ -64,7 +64,8 @@ jobs:
 
       - name: Debug current branch
         run: |
-          echo "Current branch: ${{ github.head_ref || github.ref_name }} "
+          echo "head ref: ${{ github.head_ref }} "
+          echo "ref name: ${{ github.ref_name }} "
 
       - name: Commit & Push changes to Readme
         uses: ad-m/github-push-action@master
