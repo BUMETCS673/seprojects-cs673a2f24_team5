@@ -108,7 +108,7 @@ function App() {
     };
     // show loading message
     setMessages((messages) => [...messages, {
-      text: 'Suggest jobs',
+      text: 'Suggested jobs',
       isUser: true
     }, sendingMessage]);
     // show loading message
@@ -118,7 +118,7 @@ function App() {
     } else {
       sendingMessage.text = (
         <>
-          <div className="font-bold">Suggested questions:<br/>{response.response}</div>
+          <div className="font-bold">Suggested jobs:<br/>{response.response}</div>
         </>
       );
     }
