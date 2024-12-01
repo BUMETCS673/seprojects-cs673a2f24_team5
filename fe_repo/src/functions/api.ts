@@ -148,6 +148,7 @@ export async function login(credential: string): Promise<string> {
     { headers: { 'Content-Type': 'multipart/form-data' } })
     .then(resp => {
       alert("Login successful");
+      setHasResume(false);
       return resp.data.user_id;
     })
     .catch(error => {
