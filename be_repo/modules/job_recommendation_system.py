@@ -40,7 +40,7 @@ def job_recommend(resume_text, user_id):
     view = CLIView()
 
     # Perform Mixed Retrieval
-    similar_docs, graph_results = retrieval_engine.perform_mixed_retrieval(resume_text, node_label='JTitle')
+    similar_docs, graph_results = retrieval_engine.perform_mixed_retrieval(resume_text, node_label="JTitle")
 
     if not similar_docs and not graph_results:
         return 'No job recommendations found based on your resume.'
