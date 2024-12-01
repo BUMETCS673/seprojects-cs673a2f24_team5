@@ -1,6 +1,6 @@
 # configs/openai_key.py
 
-from configs.database import get_key_database
+from ..configs.database import get_key_database
 
 def get_openai_api_key():
     """
