@@ -66,6 +66,6 @@ jobs:
         uses: actions-js/push@master
         with:
           branch: |
-            ${{ github.ref_name == 'main' && 'dev/backend' || (startsWith(github.ref_name, 'be/') && github.ref_name) || 'dev/backend' }}
+            ${{ github.event.pull_request.base.ref || 'dev/backend' }}
           message: Update coverage on Readme
           github_token: ${{ secrets.GITHUB_TOKEN }}
