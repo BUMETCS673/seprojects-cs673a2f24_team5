@@ -1,11 +1,16 @@
 // vitest.config.ts
-import { defineConfig } from 'vitest/config'
+import {defineConfig} from 'vitest/config'
 
-export default defineConfig({
-  test: {
-    coverage: {
-      include: ['src'],
-      exclude: ['**/*/index.ts', '**/*/*.d.ts', '**/*/*.test.ts', '**/*/*.tsx']
+export default defineConfig(({command}) => {
+  return {
+    test: {
+      coverage: {
+        include: ['src'],
+        exclude: ['**/*/index.ts', '**/*/*.d.ts', '**/*/*.test.ts', '**/*/*.tsx']
+      },
     },
-  },
+    define: {
+      __CURRENT_URI__: JSON.stringify(command == 'serve' ? 'http://cvcoach.site' : 'http://localhost')
+    },
+  }
 })
