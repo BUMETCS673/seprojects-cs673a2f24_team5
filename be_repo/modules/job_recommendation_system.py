@@ -39,7 +39,7 @@ def job_recommend(resume_text, user_id):
     # Initialize View
     view = CLIView()
 
-    # Perform Mixed Retrieval for 'JD' Node Label
+    # Perform Mixed Retrieval
     similar_docs, graph_results = retrieval_engine.perform_mixed_retrieval(resume_text, node_label='JTitle')
 
     if not similar_docs and not graph_results:
