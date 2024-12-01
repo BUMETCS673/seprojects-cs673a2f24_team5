@@ -8,7 +8,6 @@ from view import CLIView
 import sys
 
 def main():
-    
 
     # Redirect standard output to a file
     sys.stdout = open('output.log', 'w')
@@ -34,6 +33,8 @@ def main():
         password=NEO4J_PASSWORD
     )
     
+    node_label = "JTitle"  # Adjust as needed; could be dynamic based on user input or other criteria
+
     # Initialize Controller Components
     resume_processor = ResumeProcessor()
     retrieval_engine = RetrievalEngine(resume_processor, neo4j_model)
@@ -51,7 +52,6 @@ def main():
         return
     
     # Perform Mixed Retrieval for 'JD' Node Label
-    node_label = "JD"  # Adjust as needed; could be dynamic based on user input or other criteria
     similar_docs, graph_results = retrieval_engine.perform_mixed_retrieval(resume_text, node_label=node_label)
     
     if not similar_docs and not graph_results:
