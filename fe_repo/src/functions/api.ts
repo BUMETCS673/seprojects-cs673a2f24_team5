@@ -1,7 +1,7 @@
 import {v4 as uuidv4} from 'uuid';
 import axios from "axios";
 
-const uri = 'http://localhost:5000'
+const uri = __CURRENT_URI__ + ':5000'
 
 export type AnalzyeResponse = {
   analysis: {
@@ -27,6 +27,22 @@ export type LoginResponse = {
 export async function suggest(): Promise<QuestionResponse | null> {
   try {
     return axios.post<QuestionResponse>(uri + '/suggest/interiew_question',
+      { user_id: getUserId() },
+      { headers: { 'Content-Type': 'multipart/form-data' } })
+      .then(response => response.data)
+      .catch(error => {
+        console.error('Error fetching response', error);
+        return null;
+      });
+  } catch (error) {
+    console.error('Error fetching the backend response', error);
+    return null;
+  }
+}
+
+export async function suggestJob(): Promise<QuestionResponse | null> {
+  try {
+    return axios.post<QuestionResponse>(uri + '/suggest/jobs',
       {user_id: getUserId()},
       {headers: {'Content-Type': 'multipart/form-data'}})
       .then(response => response.data)
@@ -132,6 +148,7 @@ export async function login(credential: string): Promise<string> {
     { headers: { 'Content-Type': 'multipart/form-data' } })
     .then(resp => {
       alert("Login successful");
+      setHasResume(false);
       return resp.data.user_id;
     })
     .catch(error => {

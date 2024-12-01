@@ -9,6 +9,7 @@ from google.oauth2 import id_token
 from configs.database import get_resume_database, get_user_database
 from graphs.qa_graph import create_graph
 from modules.evaluator import evaluate_resume, evaluate_resume_with_jd
+from modules.job_recommendation_system import job_recommend
 from modules.langgraph_qa import get_answer_from_langgraph
 from modules.upload import upload_parse_resume
 
@@ -159,9 +160,17 @@ def ask_question():
         return jsonify({"error": "No user ID provided."}), 400
     if not question:
         return jsonify({"error": "No question provided."}), 400
+    # Load resume from database
+    resume = resume_collection.find_one({"user_id": user_id})
+    if not resume:
+        return jsonify({"error": "No resume found for this user."}), 404
+
+    resume_text = resume.get('resume_text', '')
+    if not resume_text:
+        return jsonify({"error": "Resume text is empty."}), 400
 
     # Get answer using LangGraph
-    response = get_answer_from_langgraph(qa_graph, resume_collection, user_state_collection, user_id, question)
+    response = get_answer_from_langgraph(qa_graph, resume_text, user_state_collection, user_id, question)
 
     return jsonify({"response": response}), 200
 
@@ -202,10 +211,42 @@ def interview_question_suggestion():
     if not user_id:
         return jsonify({"error": "No user ID provided."}), 400
 
+    # Load resume from database
+    resume = resume_collection.find_one({"user_id": user_id})
+    if not resume:
+        return jsonify({"error": "No resume found for this user."}), 404
+
+    resume_text = resume.get('resume_text', '')
+    if not resume_text:
+        return jsonify({"error": "Resume text is empty."}), 400
+
     # Get answer using LangGraph
-    response = get_answer_from_langgraph(qa_graph, resume_collection, user_state_collection, user_id, prompt)
+    response = get_answer_from_langgraph(qa_graph, resume_text, user_state_collection, user_id, prompt)
 
     return jsonify({"response": response}), 200
+
+
+@app.route('/suggest/jobs', methods=['POST', 'OPTIONS'])
+def job_suggestion():
+    if request.method == 'OPTIONS':
+        return jsonify({'status': 'OK'}), 200
+
+    user_id = request.form.get('user_id')
+
+    if not user_id:
+        return jsonify({"error": "No user ID provided."}), 400
+
+    # Load resume from database
+    resume = resume_collection.find_one({"user_id": user_id})
+    if not resume:
+        return jsonify({"error": "No resume found for this user."}), 404
+
+    # Get answer using LangGraph
+    resume_text = resume.get('resume_text', '')
+    if not resume_text:
+        return jsonify({"error": "Resume text is empty."}), 400
+
+    return jsonify({"response": job_recommend(resume_text, user_id)}), 200
 
 
 if __name__ == '__main__':
