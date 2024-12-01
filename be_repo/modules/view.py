@@ -28,8 +28,8 @@ class CLIView:
         Display job recommendations to the user.
         """
         if not recommendations:
-            return "No job recommendations found based on your resume."
-        res = "\nRecommended Jobs for You:\n"
+            print("No job recommendations found based on your resume.")
+            return
+        print("\nRecommended Jobs for You:")
         for idx, job in enumerate(recommendations, start=1):
-            res += f"{idx}. {job}\n"
-        return res
+            print(f"{idx}. {job}")
