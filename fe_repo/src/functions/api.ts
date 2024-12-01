@@ -1,7 +1,7 @@
 import {v4 as uuidv4} from 'uuid';
 import axios from "axios";
 
-const uri = 'http://34.23.225.150:5000'
+const uri = __CURRENT_URI__ + ':5000'
 
 export type AnalzyeResponse = {
   analysis: {
