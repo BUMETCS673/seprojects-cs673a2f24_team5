@@ -64,11 +64,11 @@ jobs:
 
       - name: Debug current branch
         run: |
-          echo "Current branch: ${{ github.head_ref || github.ref_name }}"
+          echo "Current branch: ${{ github.ref }}"
 
       - name: Commit & Push changes to Readme
         uses: ad-m/github-push-action@master
         with:
-          branch: github.head_ref || github.ref_name
+          branch: github.ref
           message: Update coverage on Readme
           github_token: ${{ secrets.GITHUB_TOKEN }}
