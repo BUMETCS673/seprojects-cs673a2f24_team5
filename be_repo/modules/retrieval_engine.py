@@ -1,11 +1,9 @@
 # retrieval_engine.py
 
-from langchain_neo4j import GraphCypherQAChain
-from langchain_openai import ChatOpenAI
-from langchain.chains.retrieval import create_retrieval_chain 
 from langchain.chains.combine_documents import create_stuff_documents_chain
-from configs.openai_key import get_openai_api_key  # New import
+from langchain.chains.retrieval import create_retrieval_chain
 from langchain.prompts import PromptTemplate
+
 
 class RetrievalEngine:
     def __init__(self, resume_processor, neo4j_model):
@@ -21,7 +19,7 @@ class RetrievalEngine:
 
         # Initialize Language Model (already initialized in Neo4jModel)
         self.llm = self.neo4j_model.llm
-        
+
         # Initialize GraphCypherQAChain (already initialized in Neo4jModel)
         self.graph_chain = self.neo4j_model.get_graph_chain()
 
@@ -53,12 +51,12 @@ class RetrievalEngine:
             {context}
             \"\"\"
             """,
-            input_variables=["input"]  
+            input_variables=["input"]
         )
 
-         # Create a documents chain
+        # Create a documents chain
         self.combine_docs_chain = create_stuff_documents_chain(self.llm, prompt=prompt)
-        
+
         # Initialize Retrieval Chain
         # Default node_label is 'JD'; can be adjusted as needed
         self.retrieval_chain = create_retrieval_chain(
@@ -79,13 +77,13 @@ class RetrievalEngine:
         """
         # Process resume into a Document
         doc = self.resume_processor.process_resume(resume_text)
-        
+
         if not doc:
             return [], {}
-        
+
         # Store the Document in the appropriate vector store
         self.neo4j_model.store_documents([doc], node_label=node_label)
-        
+
         # Access the schema property correctly
         schema = self.neo4j_model.graph.get_schema
 
@@ -94,8 +92,6 @@ class RetrievalEngine:
         similar_docs = similar_docs_result.get("output", [])
         print("similar_docs_result:", similar_docs_result)
         print("Keys in similar_docs_result:", similar_docs_result.keys())
-        
-
 
         for doc in similar_docs:
             print("Document Metadata:", doc.metadata)
@@ -105,5 +101,5 @@ class RetrievalEngine:
         # After graph query
         print("Graph Response:")
         print(graph_response)
-       
+
         return similar_docs, graph_response
