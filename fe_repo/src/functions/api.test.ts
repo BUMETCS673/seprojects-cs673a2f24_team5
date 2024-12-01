@@ -1,5 +1,7 @@
 import {expect, test} from 'vitest';
-import {analyze, getHasResume, getUserId, login, sendMessage, suggest, uploadFile, suggestJob} from "./api.ts";
+import {analyze, getHasResume, getUserId, login, sendMessage, suggest, suggestJob, uploadFile} from "./api.ts";
+
+global.__CURRENT_URI__ = 'http://localhost';
 
 test('sendMessage', () => {
   expect(sendMessage("I'm adam")).toBeDefined();
