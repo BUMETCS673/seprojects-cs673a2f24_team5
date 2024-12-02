@@ -1,0 +1,53 @@
+name: CI for FE
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - fe_repo/*
+
+jobs:
+  "build-test-linter":
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./fe_repo
+
+    services:
+      docker:
+        image: docker:20.10.16
+        options: --privileged
+
+    steps:
+      # Step 1: Check out the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "22"
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: |
+          npm install -g pnpm
+          pnpm i
+
+      # Step 4: Linter
+      - name: Check the linter
+        run: |
+          pnpm lint
+
+      # Step 5: Run Vite tests
+      - name: Run Vite tests
+        run: |
+          pnpm coverage
+
+      # Step 6: Build the project with Vite
+      - name: Build the project
+        run: |
+          pnpm build
