@@ -23,8 +23,9 @@ def get_answer_from_langgraph(qa_graph, resume_text, user_state_collection, user
     events = qa_graph.stream(
         {"messages": [("user", question)]}, config, stream_mode="values"
     )
+    final_result = ''
     for event in events:
         if event["messages"][-1].type == "ai":
-            return event["messages"][-1].content
+            final_result = event["messages"][-1].content
 
-    return
+    return final_result
