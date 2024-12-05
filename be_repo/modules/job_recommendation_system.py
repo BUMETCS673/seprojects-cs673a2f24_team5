@@ -7,6 +7,15 @@ from .recommendation_generator import RecommendationGenerator
 from .resume_processor import ResumeProcessor
 from .retrieval_engine import RetrievalEngine
 from .view import CLIView
+from configs.database import get_key_database
+
+keys_db = get_key_database()
+keys_collection = keys_db["keys"]
+
+# Neo4j Connection Details
+NEO4J_URI = keys_collection.find_one({"_id": "NEO4J_URI"})["api_key"]  # Replace with your Neo4j URI
+NEO4J_USERNAME = "neo4j"  # Replace with your Neo4j username
+NEO4J_PASSWORD = keys_collection.find_one({"_id": "NEO4J_PASSWORD"})["api_key"]  # Replace with your Neo4j password
 
 
 def job_recommend(resume_text, user_id):
@@ -19,19 +28,12 @@ def job_recommend(resume_text, user_id):
         logger.error(f'No resume text provided, user_id: {user_id}.')
         return 'Error: No resume text provided.'
 
-    # Neo4j Connection Details
-    NEO4J_URI = "neo4j+ssc://7bf5a48e.databases.neo4j.io"  # Replace with your Neo4j URI
-    NEO4J_USERNAME = "neo4j"  # Replace with your Neo4j username
-    NEO4J_PASSWORD = "oxsK7V5_86emZlYQlvCfQHfVWS95wXz29OhtU8GAdFc"  # Replace with your Neo4j password
-
     # Initialize Model
     neo4j_model = Neo4jModel(
         uri=NEO4J_URI,
         username=NEO4J_USERNAME,
         password=NEO4J_PASSWORD
     )
-
-    node_label = "JTitle"  # Adjust as needed; could be dynamic based on user input or other criteria
 
     # Initialize Controller Components
     resume_processor = ResumeProcessor()
@@ -42,7 +44,7 @@ def job_recommend(resume_text, user_id):
     view = CLIView()
 
     # Perform Mixed Retrieval
-    similar_docs, graph_results = retrieval_engine.perform_mixed_retrieval(resume_text, node_label=node_label)
+    similar_docs, graph_results = retrieval_engine.perform_mixed_retrieval(resume_text, node_label='JTitle')
 
     if not similar_docs and not graph_results:
         return 'No job recommendations found based on your resume.'
