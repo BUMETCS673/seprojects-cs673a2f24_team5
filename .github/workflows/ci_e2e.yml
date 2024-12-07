@@ -40,7 +40,7 @@ jobs:
           pnpm i
           pnpm lint
           pnpm build
-          pnpm run dev &
+          pnpm run preview &
 
       # Step 3: Start BE
       - name: Set up and start backend
