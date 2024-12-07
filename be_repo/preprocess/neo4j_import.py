@@ -1,7 +1,7 @@
 # neo4j_import.py
 
 import pandas as pd
-# from neo4j import GraphDatabase
+from neo4j import GraphDatabase
 import json
 import os
 from tqdm import tqdm
