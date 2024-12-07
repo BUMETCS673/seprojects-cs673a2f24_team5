@@ -35,6 +35,8 @@ def job_recommend(resume_text, user_id):
         password=NEO4J_PASSWORD
     )
 
+    node_label = "JTitle"  # Adjust as needed; could be dynamic based on user input or other criteria
+
     # Initialize Controller Components
     resume_processor = ResumeProcessor()
     retrieval_engine = RetrievalEngine(resume_processor, neo4j_model)
@@ -44,7 +46,7 @@ def job_recommend(resume_text, user_id):
     view = CLIView()
 
     # Perform Mixed Retrieval
-    similar_docs, graph_results = retrieval_engine.perform_mixed_retrieval(resume_text, node_label='JTitle')
+    similar_docs, graph_results = retrieval_engine.perform_mixed_retrieval(resume_text, node_label=node_label)
 
     if not similar_docs and not graph_results:
         return 'No job recommendations found based on your resume.'

@@ -2,7 +2,7 @@
 
 from langchain_neo4j import GraphCypherQAChain
 from langchain_openai import ChatOpenAI
-from langchain.chains.retrieval import create_retrieval_chain 
+from langchain.chains.retrieval import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from configs.openai_key import get_openai_api_key  # New import
 from langchain.prompts import PromptTemplate
@@ -11,7 +11,7 @@ class RetrievalEngine:
     def __init__(self, resume_processor, neo4j_model):
         """
         Initialize the Retrieval Engine with necessary components.
-        
+
         Parameters:
             resume_processor (ResumeProcessor): Instance to process resumes.
             neo4j_model (Neo4jModel): Instance to interact with Neo4j.
@@ -21,7 +21,7 @@ class RetrievalEngine:
 
         # Initialize Language Model (already initialized in Neo4jModel)
         self.llm = self.neo4j_model.llm
-        
+
         # Initialize GraphCypherQAChain (already initialized in Neo4jModel)
         self.graph_chain = self.neo4j_model.get_graph_chain()
 
@@ -44,7 +44,7 @@ class RetrievalEngine:
             {context}
             \"\"\"
             """
-        
+
         self.prompt_template = PromptTemplate(
             template=template,
             input_variables=["input"]
@@ -56,23 +56,23 @@ class RetrievalEngine:
     def perform_mixed_retrieval(self, resume_text, node_label="JD"):
         """
         Perform mixed retrieval using vector similarity and graph traversal.
-        
+
         Parameters:
             resume_text (str): The user's resume text.
             node_label (str): The node label to perform retrieval on ('JD', 'JTitle', 'JKeyword').
-        
+
         Returns:
             Tuple[List[Document], dict]: Results from vector similarity and graph traversal.
         """
         # Process resume into a Document
         doc = self.resume_processor.process_resume(resume_text)
-        
+
         if not doc:
             return [], {}
-        
+
         # Store the Document in the appropriate vector store
         self.neo4j_model.store_documents([doc], node_label=node_label)
-        
+
         # Access the schema property correctly
         schema = self.neo4j_model.graph.get_schema
 
@@ -90,7 +90,7 @@ class RetrievalEngine:
         similar_docs = similar_docs_result.get("output", [])
         print("similar_docs_result:", similar_docs_result)
         print("Keys in similar_docs_result:", similar_docs_result.keys())
-        
+
         for doc in similar_docs:
             print("Document Metadata:", doc.metadata)
 
@@ -99,5 +99,5 @@ class RetrievalEngine:
         # After graph query
         print("Graph Response:")
         print(graph_response)
-       
+
         return similar_docs, graph_response
