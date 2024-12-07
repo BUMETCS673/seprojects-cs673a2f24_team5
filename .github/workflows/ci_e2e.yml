@@ -52,7 +52,7 @@ jobs:
       # Step 4: Wair for BE and FE Services
       - name: Wait for services to be ready
         run: |
-          until curl -s http://localhost:3001; do
+          until curl -s http://localhost:8081; do
             echo "Waiting for frontend to be ready..."
             sleep 5
           done
