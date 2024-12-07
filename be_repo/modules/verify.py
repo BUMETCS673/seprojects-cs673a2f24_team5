@@ -1,4 +1,4 @@
-# from neo4j import GraphDatabase
+from neo4j import GraphDatabase
 from configs.database import get_key_database
 
 keys_db = get_key_database()
