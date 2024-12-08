@@ -1,9 +1,11 @@
 # retrieval_engine.py
 
-from langchain.chains.combine_documents import create_stuff_documents_chain
+from langchain_neo4j import GraphCypherQAChain
+from langchain_openai import ChatOpenAI
 from langchain.chains.retrieval import create_retrieval_chain
+from langchain.chains.combine_documents import create_stuff_documents_chain
+from configs.openai_key import get_openai_api_key  # New import
 from langchain.prompts import PromptTemplate
-
 
 class RetrievalEngine:
     def __init__(self, resume_processor, neo4j_model):

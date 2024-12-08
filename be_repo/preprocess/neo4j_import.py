@@ -6,6 +6,15 @@ import json
 import os
 from tqdm import tqdm
 import logging
+from configs.database import get_key_database
+
+keys_db = get_key_database()
+keys_collection = keys_db["keys"]
+
+# Neo4j Connection Details
+NEO4J_URI = keys_collection.find_one({"_id": "NEO4J_URI"})["api_key"]  # Replace with your Neo4j URI
+NEO4J_USERNAME = "neo4j"  # Replace with your Neo4j username
+NEO4J_PASSWORD = keys_collection.find_one({"_id": "NEO4J_PASSWORD"})["api_key"]  # Replace with your Neo4j password
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -29,8 +38,8 @@ node_types = {
 }
 
 # Neo4j connection details from environment variables
-uri = "neo4j+ssc://7bf5a48e.databases.neo4j.io"
-AUTH = ("neo4j", "oxsK7V5_86emZlYQlvCfQHfVWS95wXz29OhtU8GAdFc")
+uri = NEO4J_URI
+AUTH = (NEO4J_USERNAME, NEO4J_PASSWORD)
 
 # Initialize Neo4j driver
 driver = GraphDatabase.driver(uri, auth=AUTH)
@@ -43,6 +52,7 @@ except Exception as e:
     logger.error(f"Failed to connect to Neo4j: {e}")
     driver.close()
     exit(1)
+
 
 # Function to load node CSV files into DataFrames
 def load_node_dataframes(csv_dir, node_types):
@@ -57,6 +67,7 @@ def load_node_dataframes(csv_dir, node_types):
             logger.warning(f"CSV file for node type '{node_type}' not found in '{csv_dir}'.")
     return node_dfs
 
+
 # Function to load relationships CSV file into a DataFrame
 def load_relationships_data(csv_dir):
     relationships_file = os.path.join(csv_dir, 'relationships.csv')
@@ -67,6 +78,7 @@ def load_relationships_data(csv_dir):
     else:
         logger.warning(f"Relationships CSV file not found in '{csv_dir}'.")
         return None
+
 
 # Function to create constraints
 def create_constraints(driver):
@@ -91,12 +103,15 @@ def create_constraints(driver):
                 logger.error(f"Failed to execute constraint '{constraint}': {e}")
     logger.info("Constraints created or already exist.")
 
+
 def standardize_relationship_types(df):
     if 'relationship_type' in df.columns:
         original_types = df['relationship_type'].unique()
-        df['relationship_type'] = df['relationship_type'].str.upper().str.replace(' ', '_').str.replace('[^A-Z0-9_]', '', regex=True)
+        df['relationship_type'] = df['relationship_type'].str.upper().str.replace(' ', '_').str.replace('[^A-Z0-9_]',
+                                                                                                        '', regex=True)
         standardized_types = df['relationship_type'].unique()
-        logger.info(f"Standardized relationship types from {len(original_types)} to {len(standardized_types)} unique types.")
+        logger.info(
+            f"Standardized relationship types from {len(original_types)} to {len(standardized_types)} unique types.")
     return df
 
 
@@ -116,12 +131,13 @@ def import_nodes_in_batches(tx, node_type, df, batch_size=1000):
         df['embedding'] = df['embedding'].apply(lambda x: json.loads(x) if pd.notnull(x) else [])
     data = df.to_dict('records')
     for i in tqdm(range(0, len(data), batch_size), desc=f"Importing {node_type} in batches"):
-        batch = data[i:i+batch_size]
+        batch = data[i:i + batch_size]
         try:
             tx.run(query, rows=batch)
-            logger.info(f"Imported batch {i//batch_size + 1} for node type '{node_type}'.")
+            logger.info(f"Imported batch {i // batch_size + 1} for node type '{node_type}'.")
         except Exception as e:
-            logger.error(f"Error importing batch {i//batch_size + 1} for node type '{node_type}': {e}")
+            logger.error(f"Error importing batch {i // batch_size + 1} for node type '{node_type}': {e}")
+
 
 # Function to create a mapping from ID to node type
 def create_id_to_type_mapping(node_dfs):
@@ -134,6 +150,7 @@ def create_id_to_type_mapping(node_dfs):
                 logger.warning(f"Invalid ID '{node_id}' in node type '{node_type}'. Skipping.")
     logger.info("Created ID to node type mapping.")
     return id_to_type
+
 
 # Function to infer node types for relationships
 def infer_node_types(rel_df, id_to_type):
@@ -149,10 +166,11 @@ def infer_node_types(rel_df, id_to_type):
         logger.warning(unknown_end)
     return rel_df
 
+
 def import_relationships_in_batches(tx, df, batch_size=1000):
     data = df.to_dict('records')
     for i in tqdm(range(0, len(data), batch_size), desc="Importing relationships in batches"):
-        batch = data[i:i+batch_size]
+        batch = data[i:i + batch_size]
         unwind_data = [
             {
                 "start_id": int(rel['start_node_id']),
@@ -170,9 +188,9 @@ def import_relationships_in_batches(tx, df, batch_size=1000):
         """
         try:
             tx.run(query, rows=unwind_data)
-            logger.info(f"Imported batch {i//batch_size + 1} of relationships.")
+            logger.info(f"Imported batch {i // batch_size + 1} of relationships.")
         except Exception as e:
-            logger.error(f"Error importing batch {i//batch_size + 1} of relationships: {e}")
+            logger.error(f"Error importing batch {i // batch_size + 1} of relationships: {e}")
 
 
 # Main function to perform the import
@@ -198,7 +216,7 @@ def main():
     if relationship_df is not None:
         # Standardize relationship types
         relationship_df = standardize_relationship_types(relationship_df)
-        
+
         # Infer node types if not present
         if 'start_node_type' not in relationship_df.columns or 'end_node_type' not in relationship_df.columns:
             logger.info("Inferring 'start_node_type' and 'end_node_type' based on node IDs...")
@@ -206,17 +224,17 @@ def main():
 
         # Check for unknown node types
         unknown_rels = relationship_df[
-            (relationship_df['start_node_type'] == 'Unknown') | 
+            (relationship_df['start_node_type'] == 'Unknown') |
             (relationship_df['end_node_type'] == 'Unknown')
-        ]
+            ]
         if not unknown_rels.empty:
             logger.error("Some relationships have unknown node types. Please verify your data.")
             logger.error(unknown_rels)
             # Skip unknown relationships
             relationship_df = relationship_df[
-                (relationship_df['start_node_type'] != 'Unknown') & 
+                (relationship_df['start_node_type'] != 'Unknown') &
                 (relationship_df['end_node_type'] != 'Unknown')
-            ]
+                ]
 
         # Import relationships
         with driver.session() as session:
@@ -228,6 +246,7 @@ def main():
 
     driver.close()
     logger.info("Neo4j import completed.")
+
 
 if __name__ == "__main__":
     main()

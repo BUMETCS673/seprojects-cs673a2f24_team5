@@ -6,12 +6,16 @@ from flask_cors import CORS
 from google.auth.transport import requests as google_requests
 from google.oauth2 import id_token
 
-from configs.database import get_resume_database, get_user_database
+from configs.database import get_resume_database, get_user_database, get_key_database
 from graphs.qa_graph import create_graph
 from modules.evaluator import evaluate_resume, evaluate_resume_with_jd
 from modules.job_recommendation_system import job_recommend
 from modules.langgraph_qa import get_answer_from_langgraph
 from modules.upload import upload_parse_resume
+
+keys_db = get_key_database()
+keys_collection = keys_db["keys"]
+GOOGLE_CLIENT_ID = keys_collection.find_one({"_id": "google_api"})["api_key"]
 
 # Generate a secure random secret key
 secret_key = secrets.token_hex(32)  # Generates a 64-character hexadecimal string
@@ -26,8 +30,6 @@ app.config.update(
     SESSION_COOKIE_SAMESITE='Lax',
     PERMANENT_SESSION_LIFETIME=timedelta(minutes=30),
 )
-
-GOOGLE_CLIENT_ID = '120137358324-l62fq2hlj9r31evvitg55rcl4rf21udd.apps.googleusercontent.com'
 
 # Test MongoDB connection
 try:
@@ -190,19 +192,19 @@ def interview_question_suggestion():
         3. What technologies and tools are used in the project.
         4. What technologies and tools are used to acquire the certification and awards.
         5. Work experience in the field of technology (if any).
-        
+
         Your response should be structured as follows, using the information you get from the resume:
         The idea you get the following questions, such as the project, technologies used, certification and awards:
         1. Question 1
         2. Question 2
         3. ...
-        
+
         For example, you can make suggestions like:
         AWS related questions:
         1. How do you use AWS services in your project?
         2. What do you know about AWS?
         3. What is the structure of your AWS environment?
-        
+
         Replace the questions with your own based on the information you get from the resume. 
         Follow this format for all categories of questions.
         Your response should contain only categorized questions. Do not include unrelated information.
