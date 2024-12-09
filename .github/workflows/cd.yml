@@ -1,0 +1,23 @@
+name: CD Pipeline
+
+on:
+  push:
+    branches:
+      - releases/*
+  pull_request:
+    branches:
+      - releases/*
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+
+      - name: Build, Tag, Push Docker image
+        run: bash docker_auto_push.sh
